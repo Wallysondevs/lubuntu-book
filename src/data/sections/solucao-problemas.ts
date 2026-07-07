@@ -477,15 +477,15 @@ Neste capítulo você vai aprender quais lugares funcionam para cada tipo de pro
 # Versão do Lubuntu/Ubuntu:
 lsb_release -a
 # Distributor ID: Ubuntu
-# Description:    Ubuntu 24.04.1 LTS
-# Release:        24.04
-# Codename:       noble`,
+# Description:    Ubuntu 26.04.1 LTS
+# Release:        26.04
+# Codename:       resolute`,
       },
       {
         lang: "bash",
         code: `# Versão do kernel e arquitetura:
 uname -a
-# Linux notebook 6.8.0-45-generic #45-Ubuntu SMP x86_64 GNU/Linux
+# Linux notebook 7.0.0-14-generic #14-Ubuntu SMP x86_64 GNU/Linux
 
 # Modelo do PC (útil para problemas de hardware):
 sudo dmidecode -t system | grep -E "Manufacturer|Product"`,
@@ -503,7 +503,7 @@ journalctl -b | pastebinit
       {
         lang: "text",
         code: `# Template STAR para perguntas:
-# (S)ituação: "Estou usando Lubuntu 24.04 em um Dell Latitude D630."
+# (S)ituação: "Estou usando Lubuntu 26.04 em um Dell Latitude D630."
 # (T)entativa: "Tentei conectar Wi-Fi pelo painel — não aparece nenhuma rede."
 # (A)tual:    "O comando ip link mostra wlan0 como DOWN.
 #             Já dei sudo ip link set wlan0 up sem sucesso."
@@ -530,7 +530,7 @@ journalctl -b | pastebinit
         code: `# Pesquisando erro corretamente
 # Errado: "lubuntu não conecta wifi" -> resultado vago
 # Certo: copie a mensagem EXATA entre aspas no Google:
-# "wlan0: deauthenticated from"  ubuntu 24.04
+# "wlan0: deauthenticated from"  ubuntu 26.04
 # As aspas forçam busca pela frase exata.`,
       },
       {
@@ -562,7 +562,7 @@ journalctl -b | pastebinit
       },
       {
         type: "warning",
-        content: "Cuidado com tutoriais antigos. Comandos do Ubuntu 16.04 podem quebrar o 24.04. Sempre confira a data do post e a versão a que se referem.",
+        content: "Cuidado com tutoriais antigos. Comandos do Ubuntu 16.04 podem quebrar o 26.04. Sempre confira a data do post e a versão a que se referem.",
       },
       {
         type: "info",
@@ -695,7 +695,7 @@ xinput set-prop 12 "libinput Tapping Enabled" 0`,
       },
       {
         type: "info",
-        content: "O Ubuntu 24.04 LTS (e Lubuntu 24.04) usa PipeWire por padrão em vez de PulseAudio. Os comandos para gerenciar mudam um pouco — confira sua versão antes.",
+        content: "O Ubuntu 26.04 LTS (e Lubuntu 26.04) usa PipeWire por padrão em vez de PulseAudio. Os comandos para gerenciar mudam um pouco — confira sua versão antes.",
       },
       {
         type: "success",

@@ -16,7 +16,7 @@ import { chapters as s12 } from './sections/avancado';
 
   export type { Chapter, Section, Difficulty, AlertType, CodeSample, AlertSpec } from './types';
 
-  export const sections: Section[] = [
+  const rawSections: Section[] = [
   {
     "id": "boas-vindas",
     "icon": "BookOpen",
@@ -207,13 +207,43 @@ import { chapters as s12 } from './sections/avancado';
   }
 ];
 
-  export const chapters: Chapter[] = [...s0, ...s1, ...s2, ...s3, ...s4, ...s5, ...s6, ...s7, ...s8, ...s9, ...s10, ...s11, ...s12];
+  // Ordem pedagógica do curso (iniciante → avançado):
+  // instala → conhece o desktop → domina o terminal → instala software → usa apps →
+  // personaliza → conecta na rede → otimiza hardware → mantém → resolve problemas → projetos → avançado
+  const ORDER = [
+    "boas-vindas",
+    "instalacao",
+    "lxqt-tour",
+    "terminal",
+    "pacotes",
+    "apps",
+    "personalizacao",
+    "rede",
+    "hardware-leve",
+    "manutencao",
+    "solucao-problemas",
+    "projetos",
+    "avancado",
+  ];
+
+  export const sections: Section[] = ORDER
+    .map((id) => rawSections.find((s) => s.id === id))
+    .filter((s): s is Section => Boolean(s));
+
+  const pool: Chapter[] = [...s0, ...s1, ...s2, ...s3, ...s4, ...s5, ...s6, ...s7, ...s8, ...s9, ...s10, ...s11, ...s12];
 
   export const chapterMap: Record<string, Chapter> = Object.fromEntries(
-    chapters.map(c => [c.slug, c])
+    pool.map((c) => [c.slug, c])
+  );
+
+  // capítulos em ordem de curso (segue a ordem das seções e a dos capítulos dentro de cada uma)
+  export const chapters: Chapter[] = sections.flatMap((s) =>
+    s.chapterSlugs
+      .map((slug) => chapterMap[slug])
+      .filter((c): c is Chapter => Boolean(c))
   );
 
   export function chapterIndex(slug: string): number {
-    return chapters.findIndex(c => c.slug === slug);
+    return chapters.findIndex((c) => c.slug === slug);
   }
   

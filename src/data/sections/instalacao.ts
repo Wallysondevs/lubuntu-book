@@ -13,7 +13,7 @@ A primeira regra de ouro é: baixe sempre do site oficial. Existe muito site esp
 
 Depois de baixar, vem um passo que quase ninguém faz e por isso muita gente acaba com pendrive corrompido: conferir o checksum. É um número longo (tipo um RG do arquivo) que o site publica. Você gera o mesmo número no seu computador e compara. Se bateu, o download veio inteiro. Se não bateu, baixe de novo — uma ISO incompleta dá erro estranho lá na frente, na hora que você menos espera.
 
-Ao final deste capítulo você vai ter no computador um arquivo tipo \`lubuntu-24.04.2-desktop-amd64.iso\` validado, pronto para o pendrive. Esse pequeno cuidado de cinco minutos evita horas de dor de cabeça depois.`,
+Ao final deste capítulo você vai ter no computador um arquivo tipo \`lubuntu-26.04.1-desktop-amd64.iso\` validado, pronto para o pendrive. Esse pequeno cuidado de cinco minutos evita horas de dor de cabeça depois.`,
     codes: [
       {
         lang: "bash",
@@ -21,29 +21,29 @@ Ao final deste capítulo você vai ter no computador um arquivo tipo \`lubuntu-2
 # https://lubuntu.me/downloads/
 
 # Escolha:
-#   - Versão LTS (ex.: 24.04.x LTS) — recomendada
+#   - Versão LTS (ex.: 26.04.x LTS) — recomendada
 #   - Arquitetura amd64 — para 99% dos PCs/notebooks
 #   - Formato Desktop ISO
 
 # Você vai baixar algo como:
-#   lubuntu-24.04.2-desktop-amd64.iso   (~2.5 GB)`,
+#   lubuntu-26.04.1-desktop-amd64.iso   (~2.5 GB)`,
       },
       {
         lang: "bash",
         code: `# No Lubuntu/Ubuntu/Linux, baixe pelo terminal com wget
 # (útil se sua conexão cai e você quer retomar de onde parou)
 
-wget -c https://cdimage.ubuntu.com/lubuntu/releases/24.04.2/release/lubuntu-24.04.2-desktop-amd64.iso
+wget -c https://cdimage.ubuntu.com/lubuntu/releases/26.04.1/release/lubuntu-26.04.1-desktop-amd64.iso
 # -c = continue: retoma o download interrompido
 
 # Liste para confirmar:
 ls -lh lubuntu-*.iso
-# saída: -rw-r--r-- 1 voce voce 2.5G out  3 14:22 lubuntu-24.04.2-desktop-amd64.iso`,
+# saída: -rw-r--r-- 1 voce voce 2.5G out  3 14:22 lubuntu-26.04.1-desktop-amd64.iso`,
       },
       {
         lang: "bash",
         code: `# No Windows (PowerShell), use Invoke-WebRequest
-Invoke-WebRequest -Uri "https://cdimage.ubuntu.com/lubuntu/releases/24.04.2/release/lubuntu-24.04.2-desktop-amd64.iso" -OutFile "lubuntu.iso"
+Invoke-WebRequest -Uri "https://cdimage.ubuntu.com/lubuntu/releases/26.04.1/release/lubuntu-26.04.1-desktop-amd64.iso" -OutFile "lubuntu.iso"
 
 # Ou simplesmente clique no link do site e use o navegador.
 # Resultado: arquivo salvo na pasta Downloads.`,
@@ -52,12 +52,12 @@ Invoke-WebRequest -Uri "https://cdimage.ubuntu.com/lubuntu/releases/24.04.2/rele
         lang: "bash",
         code: `# Conferindo o checksum SHA256 — o "RG" do arquivo
 # 1) Baixe o arquivo SHA256SUMS na mesma pasta da ISO:
-wget https://cdimage.ubuntu.com/lubuntu/releases/24.04.2/release/SHA256SUMS
+wget https://cdimage.ubuntu.com/lubuntu/releases/26.04.1/release/SHA256SUMS
 
 # 2) Rode o comando de verificação:
 sha256sum -c SHA256SUMS --ignore-missing
 # saída esperada:
-# lubuntu-24.04.2-desktop-amd64.iso: OK
+# lubuntu-26.04.1-desktop-amd64.iso: OK
 
 # Se aparecer "FAILED", baixe a ISO novamente.`,
       },
@@ -106,7 +106,7 @@ uname -m
       },
       {
         type: "info",
-        content: "A versão LTS atual (em 2024+) é a 24.04. O número antes do ponto é o ano (2024) e depois é o mês (abril). LTSs sempre saem em abril de anos pares.",
+        content: "A versão LTS atual (em 2026+) é a 26.04. O número antes do ponto é o ano (2026) e depois é o mês (abril). LTSs sempre saem em abril de anos pares.",
       },
       {
         type: "danger",
@@ -168,7 +168,7 @@ lsblk
 sudo umount /dev/sdb1
 
 # 3) Grave a ISO (CONFIRA o /dev/sdX duas vezes!)
-sudo dd if=lubuntu-24.04.2-desktop-amd64.iso of=/dev/sdb bs=4M status=progress conv=fsync
+sudo dd if=lubuntu-26.04.1-desktop-amd64.iso of=/dev/sdb bs=4M status=progress conv=fsync
 
 # saída durante a execução:
 # 2516582400 bytes (2.5 GB, 2.3 GiB) copied, 180 s, 14.0 MB/s`,
@@ -246,13 +246,13 @@ sudo eject /dev/sdb
 
 Pense nos requisitos como cardápio: tem o "sobreviver" (mínimo, dá pra usar mas vai engasgar), o "comer bem" (recomendado, fluidez no dia a dia) e o "banquete" (folgado, tudo voa). Cada um serve a um perfil de uso. Se você só vai navegar e escrever no LibreOffice, o mínimo basta. Se quer assistir vídeo em HD e ter dezenas de abas abertas, mire no recomendado.
 
-A versão atual (24.04 LTS) parou de suportar processadores 32 bits — isso significa que máquinas muito antigas (Pentium 4, Athlon XP da década de 2000) estão fora. Para essas, existem distros ainda mais antigas tipo Bodhi Linux ou antiX. Para qualquer coisa de 2008 em diante (Core 2 Duo, Athlon 64), o Lubuntu moderno funciona.
+A versão atual (26.04 LTS) parou de suportar processadores 32 bits — isso significa que máquinas muito antigas (Pentium 4, Athlon XP da década de 2000) estão fora. Para essas, existem distros ainda mais antigas tipo Bodhi Linux ou antiX. Para qualquer coisa de 2008 em diante (Core 2 Duo, Athlon 64), o Lubuntu moderno funciona.
 
 Neste capítulo você vai aprender a descobrir os números do seu PC (quantos GB de RAM, qual processador, quanto espaço em disco) tanto pelo Windows quanto por dentro do Lubuntu Live. Com essa informação, dá para decidir com calma se vale instalar, e se vale, qual a expectativa de desempenho.`,
     codes: [
       {
         lang: "text",
-        code: `# Requisitos do Lubuntu 24.04 LTS
+        code: `# Requisitos do Lubuntu 26.04 LTS
 
 # MÍNIMO ABSOLUTO (vai mancar, mas roda):
 #   CPU: 64 bits, qualquer (ex.: Core 2 Duo)
@@ -303,7 +303,7 @@ lsblk
       },
       {
         lang: "bash",
-        code: `# Verificando se a CPU é 64 bits (obrigatório no 24.04+)
+        code: `# Verificando se a CPU é 64 bits (obrigatório no 26.04+)
 lscpu | grep "Modo(s) operacional"
 # Modo(s) operacional da CPU: 32-bit, 64-bit
 # Se aparecer só "32-bit", o Lubuntu moderno não vai instalar.
@@ -316,7 +316,7 @@ uname -m
       {
         lang: "bash",
         code: `# Quanto espaço o sistema vai ocupar realmente?
-# Após instalação limpa do Lubuntu 24.04:
+# Após instalação limpa do Lubuntu 26.04:
 #   ~7-8 GB no disco (raiz /)
 #   ~500 MB de swap recomendado (ou zram, ver capítulo de hardware)
 #   resto vira sua /home
@@ -340,7 +340,7 @@ watch -n 1 free -h
     ],
     points: [
       "1 GB de RAM é o mínimo absoluto; 4 GB é onde a experiência vira agradável.",
-      "CPU precisa ser 64 bits no Lubuntu 24.04 LTS — máquinas antes de 2008 podem não servir.",
+      "CPU precisa ser 64 bits no Lubuntu 26.04 LTS — máquinas antes de 2008 podem não servir.",
       "25 GB de disco bastam, mas 30+ GB dá folga para o sistema crescer com atualizações.",
       "SSD não é exigido, mas troca o Lubuntu de 'rápido' para 'instantâneo'.",
       "GPU integrada Intel/AMD funciona out-of-the-box; NVIDIA pode precisar driver extra.",
@@ -404,7 +404,7 @@ Cuidado: como tudo vive na RAM, a live é mais lenta que o sistema instalado. Pe
 #   Boot from local disk
 #
 # Aperte Enter. Em ~30 segundos cai na área de trabalho.
-# Aparece um ícone "Install Lubuntu 24.04 LTS" na área —
+# Aparece um ícone "Install Lubuntu 26.04 LTS" na área —
 # por enquanto IGNORE: estamos só testando.`,
       },
       {
@@ -414,11 +414,11 @@ Cuidado: como tudo vive na RAM, a live é mais lenta que o sistema instalado. Pe
 
 # Ver versão do kernel (confirma que é mesmo o Live):
 uname -r
-# saída: 6.8.0-XX-generic
+# saída: 7.0.0-XX-generic
 
 # Ver o nome do sistema:
 lsb_release -a
-# Description: Ubuntu 24.04.x LTS
+# Description: Ubuntu 26.04.x LTS
 # (sim, ele se identifica como Ubuntu — Lubuntu é um sabor)`,
       },
       {
@@ -510,7 +510,7 @@ Antes de começar, três cuidados. Primeiro: faça backup. Mesmo na opção "use
         lang: "text",
         code: `# Passo 1: inicie pela live (capítulo anterior)
 # Passo 2: na área de trabalho, clique duas vezes em
-#          "Install Lubuntu 24.04 LTS"
+#          "Install Lubuntu 26.04 LTS"
 # Passo 3: o Calamares abre. Você vai passar por estas telas:
 #
 #   1. Boas-vindas (idioma)
@@ -764,7 +764,7 @@ swapon --show
 
 O processo tem três etapas. Primeiro, no Windows, você libera espaço encolhendo a partição existente. Depois, no instalador do Lubuntu, escolhe "Instalar lado a lado". Por fim, o GRUB (gerenciador de boot do Linux) assume o controle e passa a mostrar os dois sistemas ao ligar. Se você quiser voltar a só ter Windows um dia, basta apagar as partições do Linux e restaurar o boot loader do Windows — tudo reversível.
 
-Existem dois cuidados modernos importantes. O Fast Startup do Windows 10/11 mantém o disco em um estado "meio desligado" que confunde o Linux e pode corromper a partição do Windows. Você precisa desativar isso antes. O Secure Boot do UEFI também pode bloquear o instalador do Lubuntu — em geral, o Lubuntu 24.04 já lida bem com Secure Boot, mas em hardware muito específico precisa desativar.
+Existem dois cuidados modernos importantes. O Fast Startup do Windows 10/11 mantém o disco em um estado "meio desligado" que confunde o Linux e pode corromper a partição do Windows. Você precisa desativar isso antes. O Secure Boot do UEFI também pode bloquear o instalador do Lubuntu — em geral, o Lubuntu 26.04 já lida bem com Secure Boot, mas em hardware muito específico precisa desativar.
 
 Por último: dual boot é robusto, mas backup primeiro. Encolher uma partição do Windows é uma operação que muito raramente dá ruim, mas quando dá, dá feio. Faça uma cópia dos seus arquivos importantes em um HD externo ou na nuvem antes de seguir.`,
     codes: [
@@ -935,7 +935,7 @@ Vamos passar pelo login, o primeiro update, a verificação se a internet está 
 # Atualizar lista de pacotes (cardápio do APT)
 sudo apt update
 # saída:
-# Hit:1 http://br.archive.ubuntu.com/ubuntu noble InRelease
+# Hit:1 http://br.archive.ubuntu.com/ubuntu resolute InRelease
 # Get:2 ... Ign:3 ...
 # Reading package lists... Done
 # All packages are up to date. (ou X packages can be upgraded)`,

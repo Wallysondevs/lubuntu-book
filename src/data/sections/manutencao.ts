@@ -13,7 +13,7 @@ Atualizar não é o mesmo que reinstalar. Numa atualização, o sistema baixa mi
 
 A ferramenta oficial chama-se \`do-release-upgrade\`. Ela vem instalada no Lubuntu por padrão, no pacote \`update-manager-core\`. Por trás dos panos, ela troca os endereços dos repositórios da versão antiga para a nova, baixa a lista de pacotes atualizados, calcula o que precisa ser substituído e faz tudo de uma vez, perguntando antes de mexer em arquivos de configuração que você editou.
 
-Iniciantes costumam pular para a versão nova assim que ela sai, no dia do lançamento. Não faça isso. Espere o primeiro "point release" (ex.: 24.04.1, normalmente 3 meses depois) — é quando os bugs mais sérios já foram corrigidos. E nunca, jamais, atualize sem ter um backup completo dos seus arquivos importantes.`,
+Iniciantes costumam pular para a versão nova assim que ela sai, no dia do lançamento. Não faça isso. Espere o primeiro "point release" (ex.: 26.04.1, normalmente 3 meses depois) — é quando os bugs mais sérios já foram corrigidos. E nunca, jamais, atualize sem ter um backup completo dos seus arquivos importantes.`,
     codes: [
       {
         lang: "bash",
@@ -83,9 +83,9 @@ Continue [yN]  Details [d]  y`,
         lang: "bash",
         code: `# 5. Após reiniciar, confirme se deu tudo certo
 lsb_release -a
-# Description:    Ubuntu 24.04.1 LTS
+# Description:    Ubuntu 26.04.1 LTS
 uname -r          # mostra a versão do kernel novo
-# 6.8.0-40-generic
+# 7.0.0-14-generic
 
 # Limpe pacotes que sobraram da versão anterior
 sudo apt autoremove --purge -y
@@ -117,7 +117,7 @@ sudo apt clean`,
       },
       {
         type: "info",
-        content: "Você não é obrigado a atualizar. Cada LTS tem 5 anos de suporte; pular uma versão (ex.: ir de 20.04 direto para 24.04) também funciona, mas exige passar pela 22.04 antes — não dá para 'pular' duas LTS de uma vez.",
+        content: "Você não é obrigado a atualizar. Cada LTS tem 5 anos de suporte; pular uma versão (ex.: ir de 22.04 direto para 26.04) também funciona, mas exige passar pela 26.04 antes — não dá para 'pular' duas LTS de uma vez.",
       },
     ],
   },
@@ -165,14 +165,14 @@ sudo apt autoremove --purge -y
         code: `# 3. Removendo kernels antigos (cada um ocupa ~300MB em /boot)
 # Veja o kernel atual em uso
 uname -r
-# 6.8.0-40-generic
+# 7.0.0-14-generic
 
 # Liste todos os kernels instalados
 dpkg --list | grep linux-image
 # Os que NÃO têm o número acima podem ser removidos
 
 # autoremove já faz isso, mas se quiser remover manual:
-sudo apt purge linux-image-6.8.0-35-generic
+sudo apt purge linux-image-7.0.0-14-generic
 # (substitua pelo número do kernel velho que quer apagar)`,
       },
       {

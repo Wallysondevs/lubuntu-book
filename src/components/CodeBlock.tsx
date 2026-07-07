@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export default function CodeBlock({ code, language = "python" }: { code: string; language?: string }) {
+export default function CodeBlock({ code, language = "bash" }: { code: string; language?: string }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
@@ -12,7 +12,7 @@ export default function CodeBlock({ code, language = "python" }: { code: string;
   };
   return (
     <div className="relative my-4 group">
-      <div className="flex items-center justify-between bg-py-blue-dark text-py-yellow text-xs px-4 py-2 rounded-t-lg font-mono">
+      <div className="flex items-center justify-between bg-lubuntu-blue-dark text-lubuntu-sky-light text-xs px-4 py-2 rounded-t-lg font-mono">
         <span>{language}</span>
         <button onClick={copy} className="flex items-center gap-1 hover:text-white transition-colors">
           {copied ? <Check size={14} /> : <Copy size={14} />}

@@ -1,13 +1,17 @@
 import { Link, useLocation } from "wouter";
 import { useMemo, useState } from "react";
 import { sections, chapterMap } from "@/data/chapters";
-import * as Icons from "lucide-react";
-import { ChevronDown, Search, X } from "lucide-react";
+import { useProgress, sectionStats } from "@/lib/course";
+import { getSectionIcon } from "@/lib/icons";
+import { ChevronDown, Search, X, Check, Home as HomeIcon } from "lucide-react";
 
 export default function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [location] = useLocation();
   const [query, setQuery] = useState("");
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const { done, isDone, count, total } = useProgress();
+
+  const pct = total ? Math.round((count / total) * 100) : 0;
 
   const filtered = useMemo(() => {
     if (!query.trim()) return sections;
@@ -30,9 +34,39 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
         className={`fixed lg:sticky lg:top-14 top-0 left-0 z-50 lg:z-10 h-screen lg:h-[calc(100vh-3.5rem)] w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 overflow-y-auto transition-transform ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         <div className="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 lg:hidden">
-          <span className="font-bold text-py-blue dark:text-py-yellow">Menu</span>
-          <button onClick={onClose} className="ml-auto p-1"><X size={18} /></button>
+          <span className="font-bold text-lubuntu-blue dark:text-lubuntu-blue-light">Menu</span>
+          <button onClick={onClose} className="ml-auto p-1">
+            <X size={18} />
+          </button>
         </div>
+
+        {/* Progresso do curso */}
+        <div className="px-3 pt-3">
+          <Link
+            href="/"
+            onClick={onClose}
+            className={`flex items-center gap-2 px-2 py-2 text-sm font-semibold rounded transition-colors ${
+              location === "/"
+                ? "bg-lubuntu-blue/10 text-lubuntu-blue dark:text-lubuntu-blue-light"
+                : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+            }`}
+          >
+            <HomeIcon size={16} /> Início
+          </Link>
+          <div className="mt-3 mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <span>Seu progresso</span>
+            <span className="font-semibold text-lubuntu-blue dark:text-lubuntu-blue-light">
+              {count}/{total}
+            </span>
+          </div>
+          <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-lubuntu-blue to-lubuntu-sky transition-all duration-500"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </div>
+
         <div className="p-3 sticky top-0 bg-white dark:bg-slate-900 z-10">
           <div className="relative">
             <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -40,22 +74,32 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Buscar capítulo…"
-              className="w-full pl-8 pr-2 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 rounded border border-transparent focus:border-py-blue focus:outline-none"
+              className="w-full pl-8 pr-2 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 rounded border border-transparent focus:border-lubuntu-blue focus:outline-none"
             />
           </div>
         </div>
+
         <nav className="px-2 pb-8">
           {filtered.map((s) => {
-            const Icon = (Icons as any)[s.icon] || Icons.BookOpen;
+            const Icon = getSectionIcon(s.icon);
             const isCollapsed = collapsed[s.id];
+            const st = sectionStats(s.id, done);
+            const secDone = st.total > 0 && st.done === st.total;
             return (
               <div key={s.id} className="mb-1">
                 <button
                   onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))}
                   className="w-full flex items-center gap-2 px-2 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"
                 >
-                  <Icon size={16} className="text-py-blue" />
+                  {secDone ? (
+                    <Check size={16} className="text-emerald-500 shrink-0" />
+                  ) : (
+                    <Icon size={16} className="text-lubuntu-blue dark:text-lubuntu-blue-light shrink-0" />
+                  )}
                   <span className="flex-1 text-left">{s.label}</span>
+                  <span className="text-[10px] tabular-nums text-slate-400">
+                    {st.done}/{st.total}
+                  </span>
                   <ChevronDown size={14} className={`transition-transform ${isCollapsed ? "-rotate-90" : ""}`} />
                 </button>
                 {!isCollapsed && (
@@ -65,18 +109,24 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
                       if (!c) return null;
                       const path = `/c/${slug}`;
                       const active = location === path;
+                      const cdone = isDone(slug);
                       return (
                         <li key={slug}>
                           <Link
                             href={path}
                             onClick={onClose}
-                            className={`block pl-3 pr-2 py-1.5 text-sm border-l-2 -ml-px transition-colors ${
+                            className={`flex items-center gap-1.5 pl-3 pr-2 py-1.5 text-sm border-l-2 -ml-px transition-colors ${
                               active
-                                ? "border-py-yellow text-py-blue dark:text-py-yellow font-semibold bg-py-yellow/10"
-                                : "border-transparent text-slate-600 dark:text-slate-400 hover:text-py-blue hover:border-py-blue/30"
+                                ? "border-lubuntu-sky text-lubuntu-blue dark:text-lubuntu-blue-light font-semibold bg-lubuntu-sky/10"
+                                : "border-transparent text-slate-600 dark:text-slate-400 hover:text-lubuntu-blue hover:border-lubuntu-blue/30"
                             }`}
                           >
-                            {c.title}
+                            {cdone ? (
+                              <Check size={13} className="text-emerald-500 shrink-0" />
+                            ) : (
+                              <span className="w-[13px] shrink-0" />
+                            )}
+                            <span className="truncate">{c.title}</span>
                           </Link>
                         </li>
                       );

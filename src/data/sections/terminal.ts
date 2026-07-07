@@ -6,111 +6,128 @@ export const chapters: Chapter[] = [
     section: "terminal",
     title: "Abrindo o terminal pela primeira vez",
     difficulty: "iniciante",
-    subtitle: "Conhecendo o QTerminal e perdendo o medo da tela preta.",
-    intro: `O terminal é uma janelinha que parece assustadora: fundo preto (ou branco, dependendo do tema), letras monoespaçadas, e nada de botões para clicar. Pense nele como a recepção de um hotel onde você fala diretamente com o gerente, em vez de mexer em painéis e menus. Tudo o que o Lubuntu sabe fazer, você pode pedir digitando.
+    subtitle: "Conhecendo o QTerminal, o shell bash e perdendo o medo da tela preta.",
+    intro: `O terminal parece assustador: fundo escuro, letras monoespaçadas e nenhum botão para clicar. Mas pense nele como a recepção de um hotel onde você fala direto com o gerente, em vez de procurar o painel certo no menu. Tudo o que o Lubuntu sabe fazer, você consegue pedir digitando — e quase sempre mais rápido do que no mouse.
 
-No Lubuntu, o terminal padrão se chama QTerminal. Ele é leve (combinando com a filosofia do sistema), suporta abas, divisão de tela e atalhos do teclado. Você pode abri-lo pelo menu de aplicações em Sistema > QTerminal, ou usando o atalho de teclado Ctrl + Alt + T se estiver configurado.
+Vale separar dois nomes que confundem todo iniciante. O **terminal** (no Lubuntu, o QTerminal) é só a janela — o "monitor e teclado". Quem realmente entende e executa os comandos é o **shell**, e o shell padrão do Ubuntu/Lubuntu se chama **bash**. Ou seja: você digita no QTerminal, o bash interpreta. Saber disso ajuda quando um tutorial fala "abra um shell" ou "no seu bash" — é tudo a mesma coisa aqui.
 
-Antes de digitar qualquer coisa, vale entender o que você está vendo. Aparece algo como \`bruno@meupc:~$\`. Esse é o "prompt": o nome do seu usuário, um @, o nome do computador, dois pontos, a pasta atual (\`~\` é seu diretório pessoal) e o cifrão indicando que está pronto. Quando aparece \`#\` em vez de \`$\`, atenção: você está como root (administrador) — pode quebrar o sistema com um comando errado.
+Antes de digitar, entenda o que aparece: algo como \`bruno@meupc:~$\`. Esse é o **prompt** — usuário (\`bruno\`), \`@\`, nome da máquina (\`meupc\`), dois-pontos, a pasta atual (\`~\` é a sua casa) e o \`$\` avisando que está pronto para receber comando. Se em vez de \`$\` aparecer \`#\`, cuidado dobrado: você está como **root** (administrador) e um comando errado pode quebrar o sistema.
 
-Neste capítulo você vai abrir o terminal, identificar cada parte do prompt, executar seus primeiros comandos inofensivos e configurar o QTerminal do jeito que te agrada. Daqui em diante, todo capítulo desta seção depende deste alicerce.`,
+Neste capítulo você vai abrir o terminal, ler cada pedaço do prompt, rodar seus primeiros comandos inofensivos, entender o erro mais comum de todos ("command not found") e deixar o QTerminal do seu jeito. Todo o resto desta trilha se apoia neste alicerce.`,
     codes: [
       {
         lang: "bash",
-        code: `# Abrindo o terminal pelo menu:
-# Menu (canto inferior esquerdo) > Sistema > QTerminal
+        code: `# Abrir o terminal:
+#   Menu (canto inferior esquerdo) > Sistema > QTerminal
+#   ou o atalho padrão do Lubuntu:  Ctrl + Alt + T
 
-# Ou pelo atalho de teclado padrão do Lubuntu:
-# Ctrl + Alt + T
-
-# Já dentro do terminal, seus primeiros comandos inofensivos:
-whoami        # mostra o seu nome de usuário
-# saída: bruno
-hostname      # mostra o nome do computador
-# saída: meupc
-date          # mostra data e hora atuais
-# saída: Qua 13 Nov 2024 14:32:10 -03`,
+# Já dentro dele, três comandos totalmente inofensivos:
+whoami
+# bruno
+hostname
+# meupc
+date
+# qua 06 mai 2026 14:32:10 -03`,
       },
       {
         lang: "bash",
-        code: `# Entendendo o prompt: bruno@meupc:~$
-#   bruno  -> seu usuário
-#   meupc  -> nome do computador (hostname)
-#   ~      -> pasta atual (~ é atalho para /home/bruno)
-#   $      -> usuario comum; # seria root (admin)
+        code: `# Anatomia do prompt   bruno@meupc:~$
+#   bruno   -> seu usuário
+#   meupc   -> nome do computador (hostname)
+#   ~       -> pasta atual (~ é atalho para /home/bruno)
+#   $       -> usuário comum   |   # seria root (admin)
 
-# Veja em qual pasta você está:
+# Onde eu estou e qual shell estou usando?
 pwd
-# saída: /home/bruno`,
+# /home/bruno
+echo "$SHELL"
+# /bin/bash
+bash --version | head -n1
+# GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)`,
       },
       {
         lang: "bash",
-        code: `# Limpando a tela quando ficar bagunçada:
-clear
-# ou aperte: Ctrl + L
+        code: `# O erro mais comum do mundo: "command not found"
+# Acontece por digitar errado ou por o programa não estar instalado.
+neofetch
+# Command 'neofetch' not found, did you mean:
+#   command 'setfetch' from deb setfetch
+# Try: sudo apt install <deb name>
 
-# Saindo do terminal:
-exit
-# ou aperte: Ctrl + D
-# A janela fecha sozinha.`,
+# Correção 1 — foi só erro de digitação? confira o nome certo.
+# Correção 2 — não está instalado? instale (veremos apt na trilha de Pacotes):
+sudo apt install fastfetch -y
+fastfetch      # agora funciona`,
       },
       {
         lang: "bash",
-        code: `# Abrindo várias abas no QTerminal sem abrir várias janelas
-# Atalho: Ctrl + Shift + T  -> nova aba
-# Atalho: Ctrl + Tab        -> alterna entre abas
-# Atalho: Ctrl + Shift + W  -> fecha a aba atual
+        code: `# Limpar a tela quando bagunçar:
+clear          # ou aperte Ctrl + L (não perde o que já digitou)
 
-# Dividindo a janela em duas (split):
-# Menu: File > Split Terminal Horizontally / Vertically`,
+# Repetir o último comando sem redigitar: seta para cima.
+# Sair do terminal:
+exit           # ou Ctrl + D`,
       },
       {
         lang: "bash",
-        code: `# Aumentando e diminuindo a fonte (útil para apresentações)
-# Ctrl + +   -> aumenta
-# Ctrl + -   -> diminui
-# Ctrl + 0   -> volta ao tamanho padrao
+        code: `# Abas e divisão de tela no QTerminal (sem abrir várias janelas):
+#   Ctrl + Shift + T  -> nova aba
+#   Ctrl + Tab        -> alterna entre abas
+#   Ctrl + Shift + W  -> fecha a aba
+#   Menu File > Split Terminal  -> divide a janela em dois painéis
 
-# Copiar e colar dentro do terminal NAO usa Ctrl+C/V (eles tem outro sentido)
-# Use:
-#   Ctrl + Shift + C   -> copiar
-#   Ctrl + Shift + V   -> colar`,
+# Copiar/colar no terminal NÃO é Ctrl+C/Ctrl+V (esses têm outro papel):
+#   Ctrl + Shift + C  -> copiar
+#   Ctrl + Shift + V  -> colar`,
       },
       {
         lang: "bash",
-        code: `# Procurando ajuda sobre qualquer comando
-man ls          # abre o manual do comando ls (q para sair)
-ls --help       # ajuda resumida, mostra opcoes principais
-help cd         # ajuda para comandos internos do bash (cd, pwd, etc.)`,
+        code: `# Ajustar a fonte (ótimo para enxergar melhor ou apresentar):
+#   Ctrl + +  aumenta    Ctrl + -  diminui    Ctrl + 0  padrão
+
+# Preferências salvas: menu  Settings > Preferences
+#   - Fonte: Monospace 12 ou 13
+#   - Tema escuro cansa menos a vista
+#   - "Open new tabs adjacent to current"  deixa as abas organizadas`,
+      },
+      {
+        lang: "bash",
+        code: `# Todo comando tem manual e ajuda embutidos — use antes de pesquisar fora:
+man ls         # manual completo (q sai, /palavra busca, setas rolam)
+ls --help      # resumo rápido das opções mais usadas
+help cd        # ajuda de comandos internos do bash (cd, pwd, export...)
+type ls        # diz o que 'ls' é: alias, programa ou builtin
+# ls is aliased to 'ls --color=auto'`,
       },
     ],
     points: [
-      "QTerminal e o terminal padrao do Lubuntu; abra em Sistema > QTerminal ou Ctrl+Alt+T.",
-      "O prompt mostra usuario@maquina:pasta$ — leia da esquerda para a direita.",
-      "$ no fim do prompt = usuario comum; # = root (cuidado redobrado).",
-      "pwd diz onde voce esta; whoami diz quem voce e; hostname diz qual a maquina.",
-      "Ctrl+L (ou clear) limpa a tela; Ctrl+D (ou exit) fecha o terminal.",
-      "Para copiar e colar use Ctrl+Shift+C e Ctrl+Shift+V (sem o Shift tem outro efeito).",
-      "Iniciante comum: digitar comando achando que esta no Word — terminal nao tem autocorretor; um espaco a mais quebra tudo.",
-      "Iniciante comum: ver o # no prompt e nao perceber que esta como root — confira sempre antes de rodar coisa pesada.",
-      "man comando abre o manual completo; comando --help mostra um resumo rapido.",
+      "O QTerminal é a janela; o bash é o shell que interpreta os comandos. No Lubuntu, o padrão é bash.",
+      "Abra em Sistema > QTerminal ou com Ctrl+Alt+T; feche com exit ou Ctrl+D.",
+      "Leia o prompt da esquerda para a direita: usuário@máquina:pasta$ (o $ vira # quando você é root).",
+      "whoami diz quem você é, hostname o nome da máquina, pwd a pasta atual — três checagens de orientação.",
+      "\"command not found\" quase sempre é erro de digitação ou programa não instalado (instale com apt).",
+      "Copiar/colar no terminal é Ctrl+Shift+C e Ctrl+Shift+V — o Ctrl+C puro interrompe o comando em execução.",
+      "Ctrl+L (ou clear) limpa a tela; a seta para cima repete o último comando.",
+      "Iniciante comum: digitar como no Word e não perceber que um espaço a mais ou letra trocada quebra tudo (o terminal não corrige).",
+      "Iniciante comum: ver o # no prompt e não notar que está como root — confira sempre antes de rodar algo pesado.",
+      "man comando e comando --help resolvem a maioria das dúvidas sem sair do terminal.",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Configure o QTerminal em Settings > Preferences. Aumente a fonte para 12 ou 14, escolha um tema escuro para cansar menos a vista e ative 'Open new tabs adjacent to current'.",
+        content: "Ajuste o QTerminal em Settings > Preferences: fonte 12–13, tema escuro e 'Open new tabs adjacent to current'. Pequenos ajustes que você agradece depois de horas de uso.",
       },
       {
         type: "info",
-        content: "Se o atalho Ctrl+Alt+T nao abrir o terminal, va em Configuracoes > Atalhos e adicione manualmente: comando 'qterminal' com a combinacao desejada.",
+        content: "Se o Ctrl+Alt+T não abrir nada, vá em Preferências do LXQt > Atalhos de teclado e crie um atalho para o comando 'qterminal'. Em algumas instalações ele não vem configurado.",
       },
       {
         type: "warning",
-        content: "Nao copie e cole comandos longos de sites desconhecidos sem ler antes. Existe truque malicioso onde o que voce ve nao e o que vai colar.",
+        content: "Não cole comandos longos de sites desconhecidos sem ler. Existe um truque malicioso em que o texto copiado esconde um comando diferente do que aparece na tela.",
       },
       {
         type: "success",
-        content: "Adquira o habito de abrir o terminal pelo menos uma vez por dia. Em duas semanas voce ja vai preferir a velocidade dele para varias tarefas.",
+        content: "Abra o terminal pelo menos uma vez por dia de propósito. Em duas semanas a 'tela preta' vira o lugar mais rápido para metade das suas tarefas.",
       },
     ],
   },
@@ -119,127 +136,122 @@ help cd         # ajuda para comandos internos do bash (cd, pwd, etc.)`,
     section: "terminal",
     title: "Navegando pelas pastas",
     difficulty: "iniciante",
-    subtitle: "cd, ls, pwd e o mapa do sistema de arquivos do Linux.",
-    intro: `Imagine o sistema de arquivos do Linux como um predio gigante. Na portaria fica a raiz, representada por uma simples barra \`/\`. A partir dali saem corredores: \`/home\` onde moram as pessoas, \`/etc\` onde ficam os manuais de configuracao, \`/usr\` com os programas instalados, \`/var\` onde o sistema anota suas atividades. Voce, no terminal, e como uma pessoa andando por esse predio.
+    subtitle: "cd, ls, pwd e o mapa (FHS) do sistema de arquivos do Linux.",
+    intro: `Imagine o sistema de arquivos do Linux como um prédio gigante. Na portaria fica a raiz, representada por uma simples barra \`/\`. Dela saem corredores padronizados: \`/home\` onde moram os usuários, \`/etc\` com os "manuais de configuração", \`/usr\` com os programas instalados, \`/var\` onde o sistema anota logs e caches. Essa padronização tem até nome oficial: **FHS** (Filesystem Hierarchy Standard) — por isso qualquer distro Linux tem as mesmas pastas nos mesmos lugares.
 
-Para se mover, usamos tres comandos basicos: \`pwd\` para saber em que andar voce esta, \`ls\` para olhar o que tem no andar, e \`cd\` para subir de elevador para outro lugar. Esses tres ja resolvem 80% da navegacao do dia a dia.
+Para andar por esse prédio bastam três comandos: \`pwd\` diz em que andar você está, \`ls\` mostra o que tem no andar e \`cd\` pega o elevador para outro lugar. Esses três resolvem 80% da navegação do dia a dia; o resto é atalho e opção.
 
-Tem dois tipos de "endereco": o caminho absoluto, comecando do \`/\` raiz (\`/home/bruno/Documentos\`), e o caminho relativo, partindo de onde voce esta (\`Documentos\` se ja estiver em \`/home/bruno\`). Atalhos uteis: \`~\` significa sua casa (\`/home/bruno\`), \`.\` e a pasta atual, e \`..\` e a pasta de cima.
+Existem dois tipos de endereço. O **caminho absoluto** começa na raiz (\`/home/bruno/Documentos\`) e funciona de qualquer lugar. O **caminho relativo** parte de onde você está agora (\`Documentos\`, se já estiver em \`/home/bruno\`). Some a isso os atalhos \`~\` (sua casa), \`.\` (pasta atual) e \`..\` (pasta de cima) e você navega sem digitar caminho gigante.
 
-Com pratica, voce acha qualquer arquivo no terminal mais rapido do que clicando no gerenciador. E quando precisar acessar a maquina pela rede via SSH (capitulo de Rede), so vai ter o terminal — entao melhor dominar logo.`,
+Com um pouco de prática, achar arquivo no terminal fica mais rápido do que clicar no gerenciador. E quando você acessar a máquina pela rede via SSH (trilha de Rede), muitas vezes só vai ter o terminal — melhor dominar isso logo no começo.`,
     codes: [
       {
         lang: "bash",
-        code: `# Onde estou agora?
+        code: `# Onde estou?
 pwd
-# saida: /home/bruno
+# /home/bruno
 
 # O que tem aqui?
 ls
-# saida: Documentos  Downloads  Imagens  Musica  Videos`,
+# Documentos  Downloads  Imagens  Música  Modelos  Público  Vídeos`,
       },
       {
         lang: "bash",
-        code: `# Listagem detalhada com permissoes, tamanho e data
+        code: `# Listagem detalhada: permissões, dono, tamanho e data
 ls -l
-# saida (resumida):
-# drwxr-xr-x 2 bruno bruno 4096 Nov 10 09:12 Documentos
-# -rw-r--r-- 1 bruno bruno 1234 Nov 12 14:00 notas.txt
+# drwxr-xr-x 2 bruno bruno 4096 mai 10 09:12 Documentos
+# -rw-r--r-- 1 bruno bruno 1234 mai 12 14:00 notas.txt
 
-# Mostrando arquivos ocultos (que comecam com .)
-ls -la
-
-# Tamanho legivel para humanos (KB, MB, GB)
-ls -lh`,
+ls -la     # inclui arquivos ocultos (os que começam com .)
+ls -lh     # tamanho legível: 4,0K, 1,2M, 3,1G em vez de bytes crus
+ls -lt     # ordena por data (mais recentes primeiro)`,
       },
       {
         lang: "bash",
-        code: `# Mudando de pasta (cd = change directory)
-cd Documentos        # entra em ./Documentos (relativo)
+        code: `# Trocar de pasta (cd = change directory)
+cd Documentos        # relativo: entra em ./Documentos
 pwd                  # /home/bruno/Documentos
-
-cd /etc              # caminho absoluto
-pwd                  # /etc
-
-cd ~                 # volta para sua casa (/home/bruno)
-cd                   # mesma coisa, sem argumento
-
-cd -                 # volta para a pasta anterior (truque util!)`,
+cd /etc              # absoluto: vai direto, de qualquer lugar
+cd ~                 # volta para a sua casa (/home/bruno)
+cd                   # sem argumento: também volta para casa
+cd -                 # volta para a PASTA ANTERIOR (alterna entre duas)`,
       },
       {
         lang: "bash",
-        code: `# Atalhos de caminho
-.       # pasta atual
-..      # pasta de cima (pai)
-~       # sua casa, equivale a /home/seu-usuario
-/       # raiz do sistema
+        code: `# Erros comuns de navegação — e o que eles significam:
 
-# Subindo um nivel:
-cd ..
+cd notas.txt
+# bash: cd: notas.txt: Not a directory
+#  -> 'cd' só entra em PASTAS; notas.txt é arquivo.
 
-# Subindo dois niveis:
-cd ../..
+cd /roott
+# bash: cd: /roott: No such file or directory
+#  -> caminho digitado errado (era /root). Confira com Tab.
 
-# Indo para a raiz:
-cd /`,
+cd /root
+# bash: cd: /root: Permission denied
+#  -> a casa do root é protegida; usuário comum não entra.`,
       },
       {
         lang: "bash",
-        code: `# Tab completion: o terminal completa nomes para voce
-# Comece a digitar e aperte Tab. Se houver duvida, aperte Tab duas vezes.
-cd Doc<Tab>          # vira: cd Documentos/
-ls /et<Tab>          # vira: ls /etc/
-
-# Isso evita 90% dos erros de digitacao.`,
+        code: `# Tab completion: o maior atalho contra erro de digitação.
+# Comece a digitar e aperte Tab; se houver ambiguidade, Tab duas vezes lista.
+cd Doc<Tab>          # completa para:  cd Documentos/
+ls /et<Tab>          # completa para:  ls /etc/
+cd ~/D<Tab><Tab>     # mostra as opções: Documentos/  Downloads/`,
       },
       {
         lang: "bash",
-        code: `# Grandes pastas do sistema Linux:
-ls /         # mostra:
-# bin   etc   home   lib   opt   root  sbin  tmp   usr   var
-# bin/sbin -> programas essenciais
-# etc      -> configuracoes do sistema
-# home     -> pastas dos usuarios
-# tmp      -> temporario, sumira no proximo boot
-# usr      -> programas instalados pelo gerenciador de pacotes
-# var      -> logs, caches, banco de dados`,
+        code: `# As pastas da raiz e para que servem (padrão FHS):
+ls /
+# bin  boot  dev  etc  home  lib  media  mnt  opt  proc  root  run
+# sbin  srv  sys  tmp  usr  var
+#
+# etc   -> configurações do sistema (texto puro, editável com sudo)
+# home  -> pastas pessoais dos usuários
+# usr   -> programas instalados pelo apt
+# var   -> logs, caches, filas, bancos de dados
+# tmp   -> temporário; é esvaziado a cada reinício
+# proc  -> "arquivos" virtuais do kernel (processos, hardware)`,
       },
       {
         lang: "bash",
-        code: `# Mostrando a arvore de pastas (precisa instalar tree):
+        code: `# Ver a árvore de pastas de uma vez (instale o tree):
 sudo apt install tree -y
 tree -L 2 ~/Documentos
-# saida (exemplo):
 # /home/bruno/Documentos
-# |-- contas
-# |   \`-- janeiro.pdf
-# \`-- estudos
-#     \`-- linux.txt`,
+# ├── contas
+# │   └── janeiro.pdf
+# └── estudos
+#     └── linux.txt
+#
+# -L 2 limita a 2 níveis de profundidade (senão despeja tudo).`,
       },
     ],
     points: [
-      "pwd mostra o caminho atual; ls lista; cd entra em outra pasta.",
-      "Caminho absoluto comeca em /, relativo parte de onde voce esta agora.",
-      "~ e atalho para /home/seu-usuario; .. sobe um nivel; . e a pasta atual.",
-      "ls -lh mostra detalhes com tamanhos legiveis; ls -la inclui ocultos.",
-      "Aperte Tab para completar nomes — economiza tempo e evita erro de digitacao.",
-      "cd - leva voce de volta para a ultima pasta visitada (alterna entre duas).",
+      "pwd mostra o caminho atual, ls lista o conteúdo, cd entra em outra pasta — o trio da navegação.",
+      "Caminho absoluto começa em / e funciona de qualquer lugar; relativo parte de onde você está.",
+      "~ é atalho para /home/seu-usuário; . é a pasta atual; .. sobe um nível.",
+      "cd - volta para a última pasta visitada — ótimo para alternar entre dois lugares.",
+      "ls -lh mostra tamanhos legíveis, ls -la inclui ocultos, ls -lt ordena por data.",
+      "\"Not a directory\" = você tentou entrar num arquivo; \"No such file\" = caminho errado; \"Permission denied\" = pasta protegida.",
+      "Aperte Tab para completar nomes: economiza tempo e evita a maioria dos erros de digitação.",
       "Iniciante comum: confundir cd ~ (sua casa) com cd / (raiz do sistema).",
-      "Iniciante comum: tentar digitar caminho com barra invertida \\ no estilo Windows; no Linux e barra normal /.",
-      "Pastas como /etc, /var e /usr sao do sistema — entre para olhar, mas pense duas vezes antes de mudar.",
+      "Iniciante comum: escrever caminho com barra invertida \\ no estilo Windows — no Linux é sempre a barra normal /.",
+      "As pastas /etc, /var e /usr seguem o padrão FHS e existem igual em toda distro Linux.",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Aprenda os atalhos cd .. (sobe um nivel), cd - (volta uma) e cd ~ (vai pra casa). Eles aparecem em cada sessao do terminal.",
+        content: "Decore três atalhos e sua navegação dobra de velocidade: cd .. (sobe um nível), cd - (volta à pasta anterior) e cd ~ (vai para casa).",
       },
       {
         type: "info",
-        content: "Arquivos que comecam com . (ponto) sao 'ocultos' por convencao — geralmente sao configuracoes. Use ls -a para ve-los.",
+        content: "Arquivos que começam com . (ponto) são 'ocultos' por convenção — quase sempre são configurações pessoais (ex.: ~/.bashrc). Use ls -a para vê-los.",
       },
       {
         type: "warning",
-        content: "Nao confunda / (raiz, no inicio) com / (separador entre pastas). cd / leva para a raiz; cd /home/bruno e um caminho absoluto ate sua casa.",
+        content: "\"Permission denied\" ao entrar em pastas como /root ou /var/log/algo não é bug: são áreas do sistema. Só acesse com sudo quando realmente precisar e souber o motivo.",
       },
     ],
   },
@@ -248,159 +260,152 @@ tree -L 2 ~/Documentos
     section: "terminal",
     title: "Criando, copiando e movendo arquivos",
     difficulty: "iniciante",
-    subtitle: "mkdir, touch, cp, mv, rm — o quarteto do dia a dia.",
-    intro: `Depois de aprender a andar pelas pastas, voce vai querer mexer no que tem dentro delas: criar arquivos novos, organizar em pastas, copiar para backup, mover para outro lugar e — com cuidado — apagar o que nao serve mais. Esses comandos sao o equivalente do "novo arquivo, recortar, colar e deletar" do gerenciador grafico, mas mais rapidos e roteirizaveis.
+    subtitle: "mkdir, touch, cp, mv, rm — o quarteto do dia a dia (sem lixeira!).",
+    intro: `Depois de andar pelas pastas, você vai querer mexer no conteúdo delas: criar arquivos, organizar em pastas, copiar para backup, mover de lugar e — com cuidado — apagar o que não serve mais. Esses comandos são o "novo arquivo, recortar, colar e excluir" do gerenciador gráfico, só que mais rápidos e automatizáveis em scripts.
 
-A pegadinha do Linux e: nao existe "lixeira" no terminal. Quando voce apaga com \`rm\`, o arquivo vai embora de verdade, na hora, sem confirmacao. Por isso, antes de executar um \`rm\` qualquer, leia o comando duas vezes. Tem ate uma piada classica: \`rm -rf /\` apaga o sistema todo.
+A grande pegadinha: **no terminal não existe Lixeira**. Quando você apaga com \`rm\`, o arquivo some na hora, sem confirmação e sem como desfazer pelo caminho normal. Por isso a regra de ouro é ler o comando duas vezes antes de apertar Enter — principalmente qualquer \`rm\` com \`-r\` ou com curinga (\`*\`).
 
-Os quatro pilares deste capitulo sao: \`mkdir\` para criar pastas, \`touch\` para criar arquivos vazios, \`cp\` para copiar, \`mv\` para mover ou renomear (e a mesma operacao!) e \`rm\` para apagar. Combinados com os atalhos de caminho que voce aprendeu (\`~\`, \`..\`, \`.\`), eles cobrem praticamente toda manipulacao basica.
+Os cinco pilares são: \`mkdir\` cria pastas, \`touch\` cria arquivo vazio, \`cp\` copia, \`mv\` move **ou** renomeia (no Linux é a mesma operação) e \`rm\` apaga. Juntando com os atalhos de caminho (\`~\`, \`..\`, \`.\`) e os curingas (\`*\`, \`?\`), eles cobrem quase toda manipulação básica.
 
-Antes de seguir, fique tranquilo: vamos sempre testar em uma pasta de brincadeira (\`~/sandbox\`) para nao destruir nada de verdade. Adquira o habito de criar uma pasta assim quando for testar comandos novos.`,
+Para praticar sem risco, vamos usar sempre uma pasta de brincadeira (\`~/sandbox\`). Crie uma dessas sempre que for testar comando novo — é a sua rede de segurança.`,
     codes: [
       {
         lang: "bash",
-        code: `# Cria uma pasta de testes para nao mexer em arquivos reais
+        code: `# Pasta de testes, para não mexer em nada de verdade:
 mkdir ~/sandbox
 cd ~/sandbox
-pwd
-# saida: /home/bruno/sandbox
 
-# Criando varios arquivos vazios de uma vez
+# Criar vários arquivos vazios de uma vez:
 touch nota.txt receita.txt lista.txt
 ls
-# saida: lista.txt  nota.txt  receita.txt`,
+# lista.txt  nota.txt  receita.txt`,
       },
       {
         lang: "bash",
-        code: `# Criando varias pastas de uma vez (-p cria as intermediarias)
-mkdir -p projeto/codigo/python
-mkdir -p projeto/docs
+        code: `# Criar árvore de pastas de uma vez (-p cria as intermediárias):
+mkdir -p projeto/codigo/python projeto/docs
 
-# Conferindo a arvore (se tiver tree instalado)
-tree projeto
-# projeto
-# |-- codigo
-# |   \`-- python
-# \`-- docs`,
+# Sem o -p, criar pasta dentro de pasta inexistente falha:
+mkdir projeto2/docs
+# mkdir: cannot create directory 'projeto2/docs': No such file or directory
+#  -> a pasta 'projeto2' ainda não existe. Correção: use -p.
+mkdir -p projeto2/docs   # agora funciona`,
       },
       {
         lang: "bash",
-        code: `# Copiando arquivos: cp origem destino
+        code: `# Copiar: cp origem destino
 cp nota.txt nota_backup.txt
-ls
-# lista.txt  nota_backup.txt  nota.txt  receita.txt
+cp receita.txt projeto/docs/     # copia para outra pasta
 
-# Copiando para outra pasta
-cp receita.txt projeto/docs/
+# Copiar PASTA precisa do -r (recursivo):
+cp projeto projeto-copia
+# cp: -r not specified; omitting directory 'projeto'
+#  -> correção:
+cp -r projeto projeto-copia
 
-# Copiando uma pasta inteira (recursivo, -r):
-cp -r projeto projeto-copia`,
+# cp -i pergunta antes de sobrescrever um arquivo já existente:
+cp -i nota.txt receita.txt
+# cp: overwrite 'receita.txt'? n`,
       },
       {
         lang: "bash",
-        code: `# Movendo arquivos (e a mesma coisa que renomear!)
-mv lista.txt compras.txt   # renomeia: lista.txt -> compras.txt
+        code: `# Mover é o mesmo que renomear (só muda o nome/lugar do registro):
+mv lista.txt compras.txt         # renomeia
+mv compras.txt projeto/docs/     # move para outra pasta
+mv projeto-copia ~/Documentos/   # move a pasta inteira
 ls
-# compras.txt  nota_backup.txt  nota.txt  receita.txt
-
-# Movendo para outra pasta:
-mv compras.txt projeto/docs/
-
-# Movendo uma pasta:
-mv projeto-copia ~/Documentos/`,
+# nota.txt  nota_backup.txt  projeto  projeto2  receita.txt`,
       },
       {
         lang: "bash",
-        code: `# Apagando arquivos (CUIDADO: nao tem lixeira!)
-rm nota_backup.txt
-ls
-# (nota_backup.txt sumiu)
+        code: `# Apagar (CUIDADO: não tem lixeira!)
+rm nota_backup.txt          # some na hora
+rm receita.txt nota.txt     # vários de uma vez
 
-# Apagando varios de uma vez:
-rm receita.txt nota.txt
+# Apagar pasta VAZIA:
+rmdir projeto2/docs
 
-# Apagando uma pasta vazia:
-rmdir projeto/docs/cache  # so funciona se estiver vazia
-
-# Apagando pasta com tudo dentro (recursivo + force):
-rm -rf projeto/docs   # apaga sem perguntar — TENHA CERTEZA`,
+# Apagar pasta com conteúdo (recursivo + force):
+rm -r projeto               # pede confirmação por item, dependendo do alias
+rm -rf projeto-copia        # força, sem perguntar — TENHA CERTEZA do caminho`,
       },
       {
         lang: "bash",
-        code: `# Pedindo confirmacao antes de apagar (rede de seguranca)
+        code: `# Rede de segurança para iniciantes: pergunte antes de apagar
 rm -i compras.txt
-# rm: remove regular file 'compras.txt'? y    (digite y para sim, n para nao)
+# rm: remove regular file 'compras.txt'? y
 
-# Dica: crie um alias permanente no ~/.bashrc para sempre perguntar
+# Torne isso permanente criando um alias no ~/.bashrc:
 echo "alias rm='rm -i'" >> ~/.bashrc
-source ~/.bashrc`,
+source ~/.bashrc            # recarrega para valer agora`,
       },
       {
         lang: "bash",
-        code: `# Wildcards (curingas): selecionando varios arquivos por padrao
+        code: `# Curingas (wildcards): agir em vários arquivos por padrão
 touch foto1.jpg foto2.jpg foto3.jpg doc.pdf
 
-ls *.jpg          # so as fotos: foto1.jpg foto2.jpg foto3.jpg
-rm *.jpg          # apaga todas as .jpg de uma vez
-ls foto?.jpg      # ? casa um caractere; nada mais sobrou aqui`,
+# REGRA DE OURO: teste com ls ANTES de apagar com rm.
+ls *.jpg
+# foto1.jpg  foto2.jpg  foto3.jpg   (é isso que seria afetado)
+rm *.jpg                   # agora sim, apaga só as .jpg
+ls foto?.jpg               # ? casa exatamente 1 caractere (nada sobrou)`,
       },
     ],
     points: [
-      "mkdir cria pastas; mkdir -p cria toda a arvore intermediaria.",
-      "touch cria arquivo vazio (e atualiza data de modificacao se ja existir).",
-      "cp copia, mv move/renomeia (e a mesma operacao no Linux), rm apaga.",
-      "Para pastas use cp -r e rm -r (r de recursivo).",
-      "Wildcards: * casa qualquer coisa, ? casa um caractere — economizam digitacao.",
-      "rm -i pergunta antes de apagar; bom alias para iniciantes ate pegar o jeito.",
-      "Iniciante comum: rodar rm -rf na pasta errada — sempre confira pwd antes.",
-      "Iniciante comum: esquecer o -r ao copiar/apagar pasta e ver 'is a directory'.",
-      "Nao existe lixeira no terminal: apagou com rm, foi embora de vez.",
+      "mkdir cria pastas; mkdir -p cria também as pastas intermediárias que faltam.",
+      "touch cria arquivo vazio (e atualiza a data de modificação se já existir).",
+      "cp copia, mv move/renomeia (mesma operação no Linux), rm apaga.",
+      "Para pastas use cp -r e rm -r; sem o -r vem o erro \"omitting directory\" / \"is a directory\".",
+      "Curingas: * casa qualquer coisa, ? casa um único caractere — sempre teste com ls antes de usar no rm.",
+      "cp -i e rm -i perguntam antes de sobrescrever/apagar — bom alias enquanto você pega o jeito.",
+      "Iniciante comum: rodar rm -rf na pasta errada — confira o pwd e o caminho antes de apertar Enter.",
+      "Iniciante comum: esquecer o -r ao copiar/apagar pasta e não entender o erro \"is a directory\".",
+      "Não existe Lixeira no terminal: apagou com rm, foi embora de vez (por isso a cautela).",
     ],
     alerts: [
       {
         type: "danger",
-        content: "Nunca rode 'rm -rf /' nem 'rm -rf /*' nem 'rm -rf $VARIAVEL/' (se a variavel estiver vazia, apaga raiz). Esse e o comando que destroi sistema mais classico do Linux.",
+        content: "Nunca rode 'rm -rf /', 'rm -rf /*' nem 'rm -rf \"$VAR\"/' com a variável vazia — qualquer um deles apaga o sistema inteiro. É o acidente mais clássico do Linux.",
       },
       {
         type: "warning",
-        content: "Antes de qualquer rm com wildcard, troque por ls primeiro. Por exemplo: ls *.tmp mostra o que SERIA apagado. So depois substitua o ls por rm.",
+        content: "Antes de qualquer rm com curinga, troque o rm por ls: 'ls *.tmp' mostra exatamente o que SERIA apagado. Só depois substitua o ls por rm.",
       },
       {
         type: "tip",
-        content: "Para realmente ter lixeira no terminal, instale o pacote trash-cli e use trash-put no lugar de rm. Ele manda para a Lixeira do LXQt e da pra recuperar.",
+        content: "Quer uma lixeira de verdade no terminal? Instale 'sudo apt install trash-cli' e use 'trash-put arquivo' no lugar de rm. Ele manda para a Lixeira do LXQt e dá para recuperar.",
       },
       {
         type: "info",
-        content: "mv entre pastas no mesmo disco e instantaneo (so muda o registro). Entre discos diferentes, ele copia e depois apaga — pode demorar.",
+        content: "mv no mesmo disco é instantâneo (só troca o registro do arquivo). Entre discos diferentes, ele copia e depois apaga — por isso pode demorar em arquivos grandes.",
       },
     ],
   },
   {
     slug: "ver-arquivos",
     section: "terminal",
-    title: "Lendo o conteudo dos arquivos",
+    title: "Lendo o conteúdo dos arquivos",
     difficulty: "iniciante",
     subtitle: "cat, less, head, tail, grep — espiando textos sem abrir editor.",
-    intro: `Boa parte dos arquivos importantes no Linux sao texto puro: configuracoes, logs, scripts, listas. Para ler rapido, voce nao precisa abrir um editor pesado — o terminal tem ferramentas dedicadas a "olhar". Cada uma serve para um tamanho de arquivo e um objetivo diferente.
+    intro: `Boa parte dos arquivos importantes do Linux é texto puro: configurações em \`/etc\`, logs em \`/var/log\`, scripts, listas. Para dar uma olhada rápida você não precisa abrir um editor pesado — o terminal tem ferramentas feitas só para "espiar", cada uma para um tamanho de arquivo e um objetivo.
 
-Pense assim: \`cat\` e o despejo (joga tudo na tela de uma vez, bom para arquivos pequenos), \`less\` e o leitor de PDF (paginavel, voce navega com setas), \`head\` mostra so as primeiras linhas (bom para conferir um cabecalho de CSV) e \`tail\` mostra so as ultimas (bom para ver o que acabou de acontecer num log).
+Pense assim: \`cat\` é o despejo (joga o arquivo inteiro na tela, bom para textos pequenos); \`less\` é o leitor paginável (você navega com setas, como num PDF); \`head\` mostra só o começo (útil para conferir o cabeçalho de um CSV) e \`tail\` mostra só o fim (perfeito para ver o que acabou de acontecer num log).
 
-Tem ainda o \`grep\`, o detetive da turma. Ele procura uma palavra dentro de um arquivo (ou varios) e mostra so as linhas que casam. Quando combinado com pipe (capitulo seguinte), grep vira sua melhor amiga em qualquer investigacao.
+E tem o \`grep\`, o detetive da turma: ele procura um texto dentro de um ou vários arquivos e devolve só as linhas que casam. Combinado com pipe (próximo capítulo), o grep vira sua melhor ferramenta de investigação — "onde é que está escrito isso?" deixa de ser um problema.
 
-Esses cinco comandos resolvem inspecao do dia a dia: ler config de Wi-Fi, conferir o que rodou no apt-get, verificar log de erro, achar onde tem uma palavra especifica em uma pasta com 200 arquivos. E tudo sem nunca abrir o gerenciador grafico.`,
+Com esses cinco comandos você resolve a inspeção do dia a dia: ler a configuração do Wi-Fi, conferir o que o apt registrou, acompanhar um log de erro ao vivo, achar em que arquivo de uma pasta com 200 itens aparece certa palavra — tudo sem abrir uma única janela gráfica.`,
     codes: [
       {
         lang: "bash",
-        code: `# Vamos preparar um arquivo de exemplo
+        code: `# Preparando um arquivo de exemplo (heredoc; detalhado no próximo capítulo):
 cd ~/sandbox
 cat > poema.txt <<'EOF'
 Linha um: bom dia
 Linha dois: bom dia ainda
-Linha tres: oi tarde
+Linha três: oi tarde
 Linha quatro: boa noite
-Linha cinco: ate amanha
-EOF
-# (o <<'EOF' vai te ensinar mais a fundo no proximo capitulo)`,
+Linha cinco: até amanhã
+EOF`,
       },
       {
         lang: "bash",
@@ -408,100 +413,100 @@ EOF
 cat poema.txt
 # Linha um: bom dia
 # Linha dois: bom dia ainda
-# Linha tres: oi tarde
+# Linha três: oi tarde
 # Linha quatro: boa noite
-# Linha cinco: ate amanha
+# Linha cinco: até amanhã
 
-# Bom para arquivos pequenos (ate ~50 linhas).
-# Em arquivos gigantes, ele rola tudo e voce nao consegue ler.`,
+# cat -n numera as linhas:
+cat -n poema.txt
+#   1  Linha um: bom dia
+#   2  Linha dois: bom dia ainda
+# ... bom só para arquivos pequenos (até ~50 linhas).`,
       },
       {
         lang: "bash",
-        code: `# less = leitor paginavel; ideal para arquivos grandes
+        code: `# less = leitor paginável; ideal para arquivos grandes
 less /var/log/syslog
-# Setas para navegar, /palavra para buscar, q para sair.
-# Comandos uteis dentro do less:
-#   espaco -> proxima pagina
-#   b      -> pagina anterior
-#   g      -> ir para o inicio
-#   G      -> ir para o final
-#   /erro  -> busca a palavra "erro"
-#   q      -> sair`,
+# Dentro do less:
+#   espaço -> próxima página        b -> página anterior
+#   g -> início   G -> fim          /erro -> busca "erro"
+#   n -> próxima ocorrência         q -> sair
+#
+# Precisa de sudo em alguns logs? "Permission denied" -> sudo less /var/log/auth.log`,
       },
       {
         lang: "bash",
-        code: `# head = primeiras linhas (padrao 10)
-head poema.txt
-head -n 2 poema.txt    # so as 2 primeiras linhas
+        code: `# head = primeiras linhas (padrão 10) | tail = últimas linhas
+head -n 2 poema.txt
+# Linha um: bom dia
+# Linha dois: bom dia ainda
+tail -n 1 poema.txt
+# Linha cinco: até amanhã
 
-# tail = ultimas linhas
-tail poema.txt
-tail -n 1 poema.txt    # so a ultima linha
-
-# tail -f = ACOMPANHA o arquivo em tempo real (otimo para logs)
+# tail -f ACOMPANHA o arquivo em tempo real (essencial para logs):
 tail -f /var/log/syslog
-# Pressione Ctrl+C para parar de seguir.`,
+# ...novas linhas aparecem conforme acontecem; Ctrl+C para parar.`,
       },
       {
         lang: "bash",
-        code: `# grep = procura uma palavra dentro do arquivo
+        code: `# grep = procura texto dentro do arquivo
 grep "bom" poema.txt
 # Linha um: bom dia
 # Linha dois: bom dia ainda
 
-grep -i "BOM" poema.txt    # -i = ignora maiusculas/minusculas
-grep -n "bom" poema.txt    # -n = mostra numero da linha
+grep -i "BOM" poema.txt      # -i ignora maiúsculas/minúsculas
+grep -n "bom" poema.txt      # -n mostra o número da linha
 # 1:Linha um: bom dia
-# 2:Linha dois: bom dia ainda`,
+# 2:Linha dois: bom dia ainda
+
+# grep sem resultado não imprime nada e devolve "código 1" (normal):
+grep "xyz" poema.txt         # (silêncio = não encontrou)`,
       },
       {
         lang: "bash",
         code: `# grep recursivo: procura dentro de uma pasta inteira
-grep -r "ip_address" /etc/network/
-# Mostra arquivo:linha para cada ocorrencia.
+grep -rn "nameserver" /etc/     # -r entra nas subpastas, -n mostra a linha
+# /etc/resolv.conf:2:nameserver 127.0.0.53
 
-# Excluindo arquivos binarios (recomendado):
-grep -rI "TODO" ~/projetos
-
-# Mostrando so o nome do arquivo (sem o conteudo):
-grep -rl "senha" ~/configs`,
+grep -rI "TODO" ~/projetos      # -I pula arquivos binários
+grep -rl "senha" ~/configs      # -l mostra só o NOME dos arquivos que casam`,
       },
       {
         lang: "bash",
-        code: `# wc = conta linhas, palavras e caracteres
+        code: `# wc conta linhas, palavras e bytes
 wc poema.txt
-# saida: 5  20 110 poema.txt    -> linhas, palavras, bytes
+#  5 20 118 poema.txt      (linhas, palavras, bytes)
+wc -l poema.txt
+# 5 poema.txt
 
-wc -l poema.txt    # so o numero de linhas: 5
-
-# Combo classico: quantas linhas de log tem 'error'?
-grep -i error /var/log/syslog | wc -l
-# (esse | e o pipe — proximo capitulo)`,
+# Combo clássico com pipe: quantas linhas com "error" tem no log?
+grep -ic error /var/log/syslog
+# 12       (-c já conta direto, sem precisar do wc)`,
       },
     ],
     points: [
-      "cat e bom para arquivos pequenos; less para grandes (paginavel).",
-      "head mostra o comeco, tail mostra o fim; -n N controla quantas linhas.",
-      "tail -f acompanha um arquivo em tempo real — ideal para logs ao vivo.",
-      "grep procura palavra; -i ignora caso, -n mostra linha, -r busca em pasta.",
-      "Dentro do less: barra (/) busca, q sai, g vai ao inicio, G ao fim.",
-      "wc -l conta linhas; combinado com grep e pipe vira contagem rapida.",
-      "Iniciante comum: dar cat em arquivo gigante e travar o terminal — use less em duvida.",
-      "Iniciante comum: esquecer aspas em grep com palavras com espaco (grep 'bom dia' arquivo).",
-      "Esses comandos so 'leem'; nunca alteram o arquivo (seguros para usar a vontade).",
+      "cat serve para arquivos pequenos; less para grandes (paginável, com busca).",
+      "head mostra o começo, tail mostra o fim; -n N controla quantas linhas.",
+      "tail -f acompanha um arquivo em tempo real — ideal para observar logs ao vivo.",
+      "grep procura texto: -i ignora caixa, -n mostra a linha, -r busca na pasta, -l só nomes, -c conta.",
+      "Dentro do less: / busca, n vai à próxima, g/G pulam para início/fim, q sai.",
+      "grep sem resultado não imprime nada — silêncio significa \"não encontrei\", não erro.",
+      "Alguns logs pedem sudo (\"Permission denied\"): use sudo less /var/log/auth.log, por exemplo.",
+      "Iniciante comum: dar cat em arquivo gigante e inundar a tela — na dúvida, use less.",
+      "Iniciante comum: esquecer as aspas em termos com espaço (grep 'bom dia' arquivo).",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Use 'less +F arquivo.log' para abrir um log e ja ficar acompanhando como se fosse tail -f. Aperte Ctrl+C para parar e navegar normalmente.",
+        content: "Use 'less +F arquivo.log' para abrir o log já acompanhando (igual ao tail -f). Aperte Ctrl+C para congelar e navegar, e Shift+F para voltar a seguir.",
       },
       {
         type: "warning",
-        content: "Nao de cat em arquivos binarios (imagem, video, executavel) — voce vai ver caracteres estranhos e o terminal pode embaralhar. Se acontecer, digite 'reset' e Enter.",
+        content: "Não dê cat em arquivos binários (imagem, vídeo, executável): a tela enche de caracteres estranhos e o terminal pode embaralhar. Se acontecer, digite 'reset' e Enter para normalizar.",
       },
       {
         type: "info",
-        content: "O grep tem um irmao mais rapido chamado ripgrep (rg). Instale com 'sudo apt install ripgrep' e use 'rg palavra' — rapido absurdo em pastas com milhares de arquivos.",
+        content: "O grep tem um primo mais rápido, o ripgrep. Instale com 'sudo apt install ripgrep' e use 'rg palavra' — absurdamente veloz em pastas com milhares de arquivos.",
       },
     ],
   },
@@ -510,133 +515,125 @@ grep -i error /var/log/syslog | wc -l
     section: "terminal",
     title: "Vendo e controlando processos",
     difficulty: "iniciante",
-    subtitle: "ps, top, htop, kill — quem esta rodando e como parar.",
-    intro: `Tudo o que esta rodando no seu Lubuntu — o navegador, o terminal, o painel do LXQt, ate aquele programa que travou — e um processo. Cada processo tem um numero unico chamado PID (Process ID). E como o numero de matricula da escola: serve para o sistema operacional saber exatamente de quem esta falando.
+    subtitle: "ps, top, htop, kill — quem está rodando e como parar sem reiniciar.",
+    intro: `Tudo o que roda no Lubuntu — o navegador, o painel do LXQt, o terminal, até aquele programa que travou — é um **processo**. Cada um tem um número único, o **PID** (Process ID). É como a matrícula da escola: o sistema usa o PID para saber exatamente de quem você está falando quando pede para parar algo.
 
-No terminal, voce ve a lista de processos com \`ps\` (instantaneo, snapshot) ou com \`top\`/\`htop\` (atualizando em tempo real, como o Gerenciador de Tarefas do Windows). Quando algo trava, o caminho e: descobrir o PID do programa zumbi e mandar ele encerrar com \`kill\`.
+No terminal você vê os processos com \`ps\` (uma foto instantânea) ou com \`top\`/\`htop\` (lista viva, atualizando sozinha, como o Gerenciador de Tarefas do Windows). Quando algo trava, o roteiro é sempre o mesmo: descobrir o PID do programa-zumbi e mandar ele encerrar com \`kill\`.
 
-Existem varios "sinais" que voce pode mandar a um processo. O educado e o SIGTERM (numero 15), que pede gentilmente para o programa salvar e sair. O ultimato e o SIGKILL (numero 9), que mata na hora sem dar chance de salvar nada — use so quando o SIGTERM nao funciona.
+Você pode mandar "sinais" diferentes a um processo. O educado é o **SIGTERM** (número 15): pede gentilmente para o programa salvar e sair. O ultimato é o **SIGKILL** (número 9): mata na hora, sem chance de salvar — use só quando o SIGTERM não resolver, porque encerrar à força pode deixar arquivos pela metade.
 
-Este capitulo te poupa muitas reinicializacoes. Em vez de desligar o computador toda vez que o navegador trava, voce abre o terminal, descobre o PID dele e termina so esse processo. O resto do sistema continua intacto.`,
+Este capítulo te poupa reinicializações. Em vez de desligar o PC toda vez que o navegador congela, você abre o terminal, acha o PID e encerra só aquele processo. O resto do sistema continua intacto.`,
     codes: [
       {
         lang: "bash",
-        code: `# ps = lista processos. Sem opcoes, mostra so os seus, do shell atual.
+        code: `# ps sem opções mostra só os processos do seu terminal atual:
 ps
 #   PID TTY          TIME CMD
 #  3142 pts/0    00:00:00 bash
 #  4501 pts/0    00:00:00 ps
 
-# Lista TODOS os processos, com mais detalhes
-ps aux
-# Mostra: USER  PID  %CPU %MEM  COMMAND ...
-# (sao centenas de linhas; combine com less ou grep)`,
+# ps aux lista TODOS os processos, com uso de CPU e memória:
+ps aux | head -n 3
+# USER   PID %CPU %MEM    VSZ   RSS TTY  STAT START  TIME COMMAND
+# root     1  0.0  0.1 167884 11384 ?   Ss   08:10  0:02 /sbin/init`,
       },
       {
         lang: "bash",
-        code: `# Procurando um processo especifico
+        code: `# Achar o PID de um programa específico:
 ps aux | grep firefox
-# bruno  4321  3.2  5.1  ...  /usr/lib/firefox/firefox
+# bruno  4321  3.2  5.1 ... /usr/lib/firefox/firefox
 
-# pgrep e mais limpo: so devolve o PID
-pgrep firefox
-# 4321
-pgrep -l firefox    # com nome:  4321 firefox`,
+# pgrep é mais limpo — devolve só o PID (ou o nome com -l):
+pgrep -l firefox
+# 4321 firefox`,
       },
       {
         lang: "bash",
-        code: `# top = lista atualizada em tempo real (q para sair)
+        code: `# top = lista viva, ordenada por CPU (q para sair)
 top
-# Mostra ordenado por uso de CPU.
-# Apertando M (maiuscula) ordena por memoria.
-# Apertando k voce mata um processo (digita o PID).
+#   dentro dele:  M ordena por memória,  P por CPU,  k mata um PID,  q sai
 
-# htop = versao colorida e mais amigavel (instale antes)
+# htop = versão colorida e amigável (recomendada):
 sudo apt install htop -y
 htop
-# Setas para navegar, F9 para matar, F10 para sair.`,
+#   setas navegam, F6 ordena, F9 mata (menu de sinais), F10 sai`,
       },
       {
         lang: "bash",
-        code: `# kill = encerra processo pelo PID
-# Pedido educado (SIGTERM = 15): salva e sai
+        code: `# kill encerra pelo PID. Primeiro o pedido educado (SIGTERM = 15):
 kill 4321
 
-# Se nao responder, ultimato (SIGKILL = 9): morre na hora
+# Se não responder, o ultimato (SIGKILL = 9):
 kill -9 4321
 
-# pkill = mata pelo nome (mais pratico)
-pkill firefox          # pede educado
-pkill -9 firefox       # forca`,
+# Erros comuns do kill:
+kill 99999
+# bash: kill: (99999) - No such process     -> esse PID não existe (confira)
+kill 1
+# bash: kill: (1) - Operation not permitted  -> processo de root; precisa de sudo`,
       },
       {
         lang: "bash",
-        code: `# killall = parecido com pkill, mata por nome exato
-killall firefox-bin
+        code: `# Matar pelo NOME (mais prático que decorar PID):
+pkill firefox            # educado, todos os processos "firefox"
+pkill -9 firefox         # à força
+killall qterminal        # por nome exato do executável
 
-# Util quando o processo abriu varias copias.
-# Cuidado: 'killall' no FreeBSD tem outro sentido (mata tudo).
-# No Linux/Lubuntu e seguro.`,
+# Quando o navegador trava, geralmente há vários processos dele;
+# pkill -9 firefox encerra todos de uma vez.`,
       },
       {
         lang: "bash",
-        code: `# Rodando programa em segundo plano com & (nao prende o terminal)
-gedit &
-# [1] 5678   <- numero do job e PID
+        code: `# Rodar em segundo plano com & (não prende o terminal):
+featherpad &
+# [1] 5678          -> número do job e PID
 
-# Vendo jobs do shell atual
-jobs
-# [1]+  Running   gedit &
-
-# Trazendo de volta para frente
-fg %1
-
-# Mandando o que ja esta rodando para tras (Ctrl+Z pausa, depois bg)
-# Ctrl+Z   -> pausa
-# bg       -> continua em background`,
+jobs                 # lista os jobs deste terminal
+# [1]+  Running   featherpad &
+fg %1                # traz o job de volta para a frente
+# Ctrl+Z pausa o programa em execução; 'bg' o retoma em segundo plano.`,
       },
       {
         lang: "bash",
-        code: `# Quem esta usando muita memoria agora?
-ps aux --sort=-%mem | head -n 5
+        code: `# Quem está pesando agora? (ótimo em PC leve)
+ps aux --sort=-%mem | head -n 4    # top de memória
+ps aux --sort=-%cpu | head -n 4    # top de CPU
 
-# Quem esta usando muita CPU?
-ps aux --sort=-%cpu | head -n 5
-
-# Quanta memoria livre tenho?
 free -h
-#               total   usado   livre  comp.  cache  disp.
-# Mem.:         3,8Gi   1,2Gi   1,1Gi   45Mi   1,5Gi  2,5Gi
-# Swap:         2,0Gi      0B   2,0Gi`,
+#               total   usado   livre  compart.  buff/cache  disp.
+# Mem.:         3,8Gi   440Mi   2,5Gi      18Mi       0,9Gi   3,1Gi
+# Swap:         2,0Gi      0B   2,0Gi
+# 440 MiB em repouso é o Lubuntu 26.04 típico.`,
       },
     ],
     points: [
-      "Cada processo tem um PID unico — e por ele que voce identifica e controla.",
-      "ps mostra um snapshot; top/htop mostram lista viva atualizada.",
-      "ps aux | grep nome e o jeito classico de achar o PID.",
-      "kill PID pede educado (SIGTERM); kill -9 PID forca (SIGKILL).",
-      "pkill nome e killall nome matam pelo nome em vez de PID.",
-      "Programa & roda em segundo plano; jobs lista; fg traz de volta.",
-      "Iniciante comum: ja sair com kill -9 sem tentar o sinal padrao primeiro — pode corromper arquivos abertos.",
-      "Iniciante comum: matar o processo errado por PID — sempre confirme com 'ps aux | grep nome' antes.",
-      "free -h mostra quanto de RAM esta livre, ocupado e em swap.",
+      "Cada processo tem um PID único — é por ele que você identifica e controla.",
+      "ps é uma foto instantânea; top/htop são a lista viva atualizando em tempo real.",
+      "ps aux | grep nome (ou pgrep -l nome) é o jeito clássico de achar o PID.",
+      "kill PID pede educado (SIGTERM/15); kill -9 PID força (SIGKILL/9) e só em último caso.",
+      "pkill nome e killall nome encerram pelo nome, sem precisar do PID.",
+      "\"No such process\" = PID não existe; \"Operation not permitted\" = processo de root, use sudo.",
+      "programa & roda em segundo plano; jobs lista, fg traz de volta, Ctrl+Z pausa.",
+      "Iniciante comum: já partir para kill -9 sem tentar o sinal padrão — pode corromper arquivos abertos.",
+      "Iniciante comum: matar o PID errado — confirme com ps aux | grep nome antes de encerrar.",
+      "free -h mostra RAM total, usada, livre e swap — a prova da leveza do Lubuntu.",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Instale e use o htop em vez do top. E muito mais amigavel: cores, navegacao por setas, F9 para matar com menu, e mostra todos os nucleos da CPU.",
+        content: "Prefira o htop ao top: cores, navegação por setas, F9 com menu de sinais e uma barra por núcleo de CPU. Em PC antigo ajuda a enxergar o que está pesando.",
       },
       {
         type: "warning",
-        content: "Nunca mate processos com PID baixo (menor que 100) sem saber o que sao. Sao do sistema (init, kernel) — matar um deles pode derrubar a sessao toda.",
+        content: "Não mate processos com PID baixo (abaixo de ~300) sem saber o que são: costumam ser do sistema. Encerrar um deles pode derrubar a sessão gráfica inteira.",
       },
       {
         type: "danger",
-        content: "kill -9 1 (matar o PID 1, init/systemd) congela ou reinicia o sistema. Nao faca isso nem como teste.",
+        content: "kill -9 1 tenta matar o PID 1 (init/systemd) e pode congelar ou reiniciar a máquina. Não faça isso nem 'para testar'.",
       },
       {
         type: "info",
-        content: "Quando um navegador trava, geralmente sao varias abas/processos. pkill -9 firefox encerra todos de uma vez sem precisar matar PID por PID.",
+        content: "Um programa 'sem responder' às vezes só está ocupado. Espere alguns segundos e tente o SIGTERM antes do SIGKILL — muitos aplicativos voltam sozinhos.",
       },
     ],
   },
@@ -645,260 +642,252 @@ free -h
     section: "terminal",
     title: "Pipes e redirecionamento",
     difficulty: "intermediario",
-    subtitle: "Conectando comandos com | e salvando saida com > e >>.",
-    intro: `O segredo da forca do terminal Linux nao esta em comandos gigantes que fazem tudo, mas em pequenos comandos que fazem uma coisa bem e se conectam entre si. E como uma cozinha industrial: um aparelho descasca, outro corta, outro cozinha, outro tempera. Voce so liga as maquinas em sequencia.
+    subtitle: "Conectando comandos com | e salvando saída com > e >>.",
+    intro: `A força do terminal Linux não está em comandos gigantes que fazem tudo, e sim em comandos pequenos que fazem uma coisa bem e se encaixam entre si. É como uma cozinha industrial: uma máquina descasca, outra corta, outra cozinha, outra tempera — você só liga em sequência.
 
-A "cola" entre os comandos e o pipe, simbolo \`|\` (a barra vertical, geralmente Shift + barra invertida). Ele pega a saida de um comando e entrega como entrada ao proximo. \`ls | grep .txt\` significa: lista a pasta, depois filtra so os .txt. \`ps aux | grep firefox | wc -l\` lista os processos, filtra os firefox e conta quantos sao. Tres comandos simples, uma resposta especifica.
+A "cola" entre comandos é o **pipe**, o símbolo \`|\` (geralmente Shift + \\). Ele pega a saída de um comando e entrega como entrada do próximo. \`ls | grep .txt\` significa "liste a pasta e depois filtre só os .txt". \`ps aux | grep firefox | wc -l\` lista processos, filtra os do firefox e conta quantos são — três comandos simples, uma resposta específica.
 
-Alem do pipe, voce tambem pode redirecionar a saida para arquivo: \`>\` joga em arquivo (substituindo o que tinha) e \`>>\` adiciona ao fim (sem apagar). Para entrada, \`<\` faz o caminho oposto: le um arquivo e da como input ao comando. Erros tem um canal separado, o stderr (descritor 2), redirecionado com \`2>\`.
+Além do pipe, você pode **redirecionar** a saída para arquivo: \`>\` grava (apagando o que havia antes) e \`>>\` acrescenta ao fim. Para a entrada, \`<\` faz o contrário: lê um arquivo e entrega ao comando. E os erros têm um canal próprio, o **stderr** (descritor 2), redirecionado com \`2>\` — detalhe que confunde muita gente.
 
-Este capitulo desbloqueia o estilo "Unix" de pensar: transforme um problema grande em uma sequencia de passos pequenos. Depois que esse jeito de pensar entra na cabeca, voce vai inventar pipelines uteis sozinho, todo dia.`,
+Este capítulo desbloqueia o jeito "Unix" de pensar: transforme um problema grande numa sequência de passos pequenos. Depois que isso entra na cabeça, você inventa pipelines úteis sozinho, todo dia.`,
     codes: [
       {
         lang: "bash",
-        code: `# Pipe basico: saida de um comando vira entrada do outro
+        code: `# Pipe básico: a saída de um vira a entrada do outro
 ls /etc | grep "conf"
-# Lista /etc, filtra so o que tem 'conf' no nome.
-# saida (exemplo):
-# debconf
 # host.conf
 # resolv.conf
+# ...
 
-# Encadeando varios:
+# Encadeando três:
 ls /etc | grep "conf" | wc -l
-# Conta quantos arquivos com 'conf' tem em /etc
-# saida: 23`,
+# 24        (quantos itens de /etc têm "conf" no nome)`,
       },
       {
         lang: "bash",
-        code: `# Redirecionamento: > escreve em arquivo (substitui!)
-ls ~ > minha_lista.txt
-cat minha_lista.txt
+        code: `# Redirecionar a saída: > grava em arquivo (SUBSTITUI o conteúdo!)
+ls ~ > lista.txt
+cat lista.txt
 # Documentos
 # Downloads
 # ...
 
-# >> adiciona no fim (nao apaga o que ja tinha)
-date >> minha_lista.txt
-echo "fim do arquivo" >> minha_lista.txt`,
+# >> acrescenta ao fim (não apaga o que já existia):
+date >> lista.txt
+echo "fim" >> lista.txt`,
       },
       {
         lang: "bash",
-        code: `# Cuidado classico: > sobrescreve sem perguntar
+        code: `# Pegadinha clássica: > sobrescreve sem avisar
 echo "linha 1" > teste.txt
-echo "linha 2" > teste.txt   # OPS: a "linha 1" sumiu!
+echo "linha 2" > teste.txt    # a "linha 1" foi embora!
 cat teste.txt
 # linha 2
 
-# Para acumular, sempre use >>
-echo "primeira" > acumulo.txt
-echo "segunda" >> acumulo.txt
-echo "terceira" >> acumulo.txt
-cat acumulo.txt
-# primeira
-# segunda
-# terceira`,
+# Para acumular, use SEMPRE >>:
+echo "a" > acumula.txt
+echo "b" >> acumula.txt
+cat acumula.txt
+# a
+# b`,
       },
       {
         lang: "bash",
-        code: `# Redirecionando a entrada: < le arquivo no lugar do teclado
-sort < minha_lista.txt
-# Ordena alfabeticamente as linhas do arquivo.
+        code: `# Canal de erro separado (stderr = 2)
+ls /pasta-inexistente
+# ls: cannot access '/pasta-inexistente': No such file or directory
 
-# Heredoc: bloco de texto inline (util em scripts)
+ls /pasta-inexistente 2> erros.log      # manda só o ERRO para arquivo
+comando_qualquer > tudo.log 2>&1        # saída (1) e erro (2) juntos
+comando_qualquer &> tudo.log            # forma curta e moderna do mesmo`,
+      },
+      {
+        lang: "bash",
+        code: `# Erro de permissão ao redirecionar para /etc — e a correção:
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+# bash: /etc/resolv.conf: Permission denied
+#  -> o > é executado pelo SHELL (usuário comum), não pelo sudo.
+
+# Correção: use 'sudo tee' (o tee escreve com privilégio):
+echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf
+# tee -a acrescenta; sem o -a, ele sobrescreve.`,
+      },
+      {
+        lang: "bash",
+        code: `# tee = grava em arquivo E mostra na tela ao mesmo tempo
+ls ~ | tee saida.txt
+# aparece na tela e também salva em saida.txt
+date | tee -a saida.txt     # -a acumula em vez de sobrescrever
+
+# Entrada a partir de arquivo (<) e heredoc (<<):
+sort < lista.txt            # ordena as linhas do arquivo
 cat > config.ini <<'EOF'
 [geral]
-nome=Bruno
 tema=escuro
-EOF
-cat config.ini`,
+EOF`,
       },
       {
         lang: "bash",
-        code: `# Erros tem canal separado (stderr = 2)
-ls /pasta-que-nao-existe
-# ls: cannot access '/pasta-que-nao-existe': No such file or directory
+        code: `# Pipelines úteis do dia a dia:
+ps aux --sort=-%mem | head -n 6            # top 5 de memória
+grep -i error /var/log/syslog | tail -n 20 # últimos 20 erros do log
+dpkg -l | grep -c '^ii'                    # quantos pacotes instalados
+ls /usr/bin | wc -l                        # quantos programas em /usr/bin
 
-# Redirecionando so o erro para um arquivo
-ls /pasta-que-nao-existe 2> erros.log
-
-# Redirecionando saida normal e erro juntos
-comando_qualquer > tudo.log 2>&1
-# Le-se: redireciona saida (1) para tudo.log; depois manda erro (2) para o mesmo lugar (&1).
-
-# Ou em bash moderno (mais legivel):
-comando_qualquer &> tudo.log`,
-      },
-      {
-        lang: "bash",
-        code: `# tee = redireciona para arquivo E ainda mostra na tela
-ls ~ | tee lista.txt
-# Aparece na tela e tambem salva em lista.txt.
-
-# tee -a = append (acumula em vez de sobrescrever)
-date | tee -a lista.txt`,
-      },
-      {
-        lang: "bash",
-        code: `# Pipelines uteis do dia a dia:
-
-# Encontrar processos consumindo memoria, top 5
-ps aux --sort=-%mem | head -n 6
-
-# Contar quantos arquivos tem em /usr/bin
-ls /usr/bin | wc -l
-
-# Ver as ultimas 20 linhas de log com a palavra error
-grep -i error /var/log/syslog | tail -n 20
-
-# Listar pacotes instalados que tem 'python' no nome
-dpkg -l | grep python | wc -l`,
+# Dica: monte o pipeline aos poucos — rode um comando, veja a saída,
+# adicione o próximo. Fica muito mais fácil de depurar.`,
       },
     ],
     points: [
-      "Pipe (|) liga a saida de um comando a entrada do proximo.",
-      "> grava em arquivo (substituindo); >> adiciona ao fim.",
-      "< le um arquivo como entrada; heredoc (<<EOF...EOF) injeta bloco de texto.",
-      "stdout (1) e a saida normal; stderr (2) e o canal de erros — separados por padrao.",
-      "2> redireciona so o erro; &> redireciona saida e erro juntos.",
-      "tee divide o fluxo: vai para o arquivo e tambem para a tela.",
-      "Iniciante comum: usar > em vez de >> e perder o que estava no arquivo.",
-      "Iniciante comum: esquecer que pipe so passa o stdout — erro nao passa pelo |.",
-      "Pipelines pequenos e claros sao melhores que comandos gigantescos: facil ler e manter.",
+      "O pipe | liga a saída de um comando à entrada do próximo — a base do estilo Unix.",
+      "> grava em arquivo (apagando o conteúdo anterior); >> acrescenta ao fim.",
+      "< lê um arquivo como entrada; heredoc (<<EOF ... EOF) injeta um bloco de texto.",
+      "stdout (1) é a saída normal; stderr (2) é o canal de erros — são separados por padrão.",
+      "2> redireciona só o erro; &> (ou > arq 2>&1) manda saída e erro para o mesmo lugar.",
+      "'echo ... | sudo tee arquivo' resolve o \"Permission denied\" ao escrever em /etc (o > sozinho roda sem sudo).",
+      "tee divide o fluxo: grava em arquivo e ainda mostra na tela (tee -a para acumular).",
+      "Iniciante comum: usar > no lugar de >> e apagar sem querer o que estava no arquivo.",
+      "Iniciante comum: esperar que o erro passe pelo pipe — o | só carrega o stdout, não o stderr.",
+      "Pipelines pequenos e claros valem mais que um comando gigante: mais fáceis de ler e corrigir.",
     ],
     alerts: [
       {
         type: "warning",
-        content: "Use > com cuidado: 'comando > arquivo' apaga o conteudo anterior antes de comecar a escrever, mesmo se o comando falhar e gerar nada.",
+        content: "'comando > arquivo' apaga o conteúdo do arquivo ANTES de rodar o comando — mesmo que o comando falhe e não gere nada. Na dúvida entre > e >>, prefira >>.",
       },
       {
         type: "tip",
-        content: "Quando estiver montando pipeline grande, monte aos poucos. Rode so o primeiro comando, ve o que sai. Adiciona o segundo. E assim vai. Mais facil debugar.",
+        content: "Monte pipelines grandes por partes: rode o primeiro comando, veja a saída, acrescente o segundo, e assim por diante. Depurar um pipeline pronto de uma vez é bem mais difícil.",
       },
       {
         type: "info",
-        content: "tee vem do simbolo T do encanamento: pega um fluxo e divide em dois. Uma saida vai para tela, outra para arquivo. Util para logar enquanto acompanha.",
+        content: "O nome tee vem do 'T' do encanamento: um fluxo que entra e sai por dois lados. Uma cópia vai para a tela, a outra para o arquivo — ótimo para logar enquanto acompanha.",
       },
       {
         type: "success",
-        content: "Quando dominar pipes, voce comeca a escrever 'one-liners' que substituem scripts inteiros. Bash one-liners viraram quase um esporte — ha sites colecionando os melhores.",
+        content: "Quando dominar pipes, você começa a escrever 'one-liners' que substituem scripts inteiros. É quase um esporte na comunidade Linux colecionar os melhores.",
       },
     ],
   },
   {
     slug: "sudo-seguranca",
     section: "terminal",
-    title: "sudo e seguranca basica",
+    title: "sudo e segurança básica",
     difficulty: "iniciante",
-    subtitle: "Quando precisa de poder de admin e como nao se cortar.",
-    intro: `No Linux, existe uma separacao clara entre o que voce pode fazer como usuario comum (mexer nos seus arquivos em /home) e o que precisa de permissao de administrador (instalar programa, mudar config do sistema, mexer em /etc). Essa separacao nao e chatice: e o que mantem o sistema seguro mesmo se voce baixar algo suspeito.
+    subtitle: "Quando você precisa de poder de administrador e como não se cortar.",
+    intro: `No Linux há uma separação clara entre o que você faz como usuário comum (mexer nos seus arquivos em \`/home\`) e o que exige permissão de administrador (instalar programa, alterar config do sistema, mexer em \`/etc\`). Isso não é frescura: é o que mantém o sistema seguro mesmo se você baixar algo suspeito — sem senha de admin, o estrago fica limitado à sua casa.
 
-O \`sudo\` (do ingles "substitute user do") e o jeito moderno de elevar so um comando ao nivel de administrador, sem ficar logado como root o tempo todo. Quando voce digita \`sudo apt update\`, o sistema pergunta sua senha (a do seu usuario, nao uma senha separada de root), e roda aquele comando especifico com privilegios. Acabou o comando, voltou a ser usuario comum.
+O \`sudo\` (do inglês "substitute user do") é o jeito moderno de elevar **só um comando** ao nível de administrador, sem ficar logado como root o tempo todo. Ao digitar \`sudo apt update\`, o sistema pede **a sua senha** (não uma senha separada de root), roda aquele comando com privilégio e pronto — você volta a ser usuário comum.
 
-A senha que voce digita fica em cache por uns 15 minutos, entao se rodar varios sudos seguidos nao precisa redigitar. E perceba: enquanto voce digita a senha, NADA aparece na tela — nem asterisco, nem ponto. Isso e proposital, para esconder ate o tamanho. Confie e va digitando.
+Dois detalhes que assustam iniciantes: enquanto você digita a senha, **nada aparece na tela** (nem asterisco) — é proposital, confie e digite. E a senha fica em cache por alguns minutos, então vários \`sudo\` seguidos não pedem senha de novo.
 
-Aqui vai a regra de ouro: se nao esta certo do que aquele comando com sudo faz, NAO rode. Um \`sudo rm -rf /etc\` e o mesmo que demolir os ajustes do sistema todo. Sudo e poder, e poder pede responsabilidade. Vamos ver os usos legitimos e os erros mais comuns.`,
+A regra de ouro: se você não entende o que aquele comando com sudo faz, **não rode**. Um \`sudo rm -rf /etc\` demole os ajustes do sistema inteiro. Sudo é poder — e poder pede leitura atenta antes do Enter. Vamos ver os usos legítimos e os erros mais comuns.`,
     codes: [
       {
         lang: "bash",
-        code: `# Comando comum (sem sudo): tudo que esta dentro de /home/seu-usuario
-mkdir ~/minha_pasta     # ok, e sua casa
-echo "ola" > ~/teste.txt  # ok
+        code: `# Sem sudo: tudo dentro da sua casa /home/bruno
+mkdir ~/minha_pasta
+echo "ola" > ~/teste.txt
 
-# Comando que precisa de admin (com sudo):
-sudo apt update         # atualiza lista de pacotes do sistema
-# [sudo] senha para bruno: ********
-# (a senha NAO aparece enquanto voce digita)`,
+# Com sudo: o que mexe no sistema
+sudo apt update
+# [sudo] senha para bruno:        <- digite; a senha NÃO aparece
+# ... listas de pacotes atualizadas`,
       },
       {
         lang: "bash",
-        code: `# Erro classico de iniciante: editar config sem sudo
-echo "novo_dns=8.8.8.8" >> /etc/resolv.conf
-# bash: /etc/resolv.conf: Permissao negada
+        code: `# A pegadinha do redirecionamento (o erro mais comum com sudo):
+echo "config nova" >> /etc/algum.conf
+# bash: /etc/algum.conf: Permission denied
+#  -> o >> é feito pelo shell (usuário comum), ANTES do comando rodar.
 
-# Forma certa:
-echo "novo_dns=8.8.8.8" | sudo tee -a /etc/resolv.conf
-# (precisa do tee porque o > do shell roda ANTES do sudo)`,
+# Correção: sudo tee
+echo "config nova" | sudo tee -a /etc/algum.conf > /dev/null
+# (o > /dev/null só evita repetir o texto na tela)`,
       },
       {
         lang: "bash",
-        code: `# Editando arquivo do sistema com editor:
+        code: `# Editar arquivo de sistema com editor:
 sudo nano /etc/hosts
-# (abre o nano com permissao para salvar)
+#   Ctrl+O salva   |   Ctrl+X sai
 
-# Para sair do nano:
-#   Ctrl+O salva
-#   Ctrl+X fecha`,
-      },
-      {
-        lang: "bash",
-        code: `# Esqueceu o sudo no comando anterior? Use !!
+# Esqueceu o sudo? Não precisa redigitar tudo:
 apt install htop
-# E: nao foi possivel abrir arquivo de bloqueio... (erro)
-
+# E: Could not open lock file /var/lib/dpkg/lock-frontend - Permission denied
 sudo !!
-# vira: sudo apt install htop
-# (truque salvador, evita redigitar)`,
+#  -> vira: sudo apt install htop`,
       },
       {
         lang: "bash",
-        code: `# Virando root por uma sessao inteira (use com parcimonia!)
-sudo -i
-# O prompt muda: root@meupc:~#
-# O # no fim avisa que voce e root.
+        code: `# Ver o que você tem permissão de rodar com sudo:
+sudo -l
+# User bruno may run the following commands on meupc:
+#     (ALL : ALL) ALL
 
-# Para sair e voltar a ser usuario comum:
-exit`,
+# Erro de quem não está no grupo sudo:
+sudo apt update
+# bruno is not in the sudoers file. This incident will be reported.
+#  -> esse usuário não pode usar sudo (veja como resolver abaixo).`,
       },
       {
         lang: "bash",
-        code: `# Conferindo quem pode usar sudo
+        code: `# Quem pode usar sudo está no grupo "sudo":
 groups bruno
-# bruno : bruno adm cdrom sudo dip plugdev lpadmin sambashare
-# O 'sudo' na lista significa que esse usuario pode usar sudo.
+# bruno : bruno adm cdrom sudo dip plugdev lpadmin
 
-# Adicionando outro usuario ao sudo (precisa ser root ou ter sudo):
-sudo usermod -aG sudo nome_do_outro_usuario
-# Ele precisa fazer logout e login para o efeito valer.`,
+# Adicionar outro usuário ao sudo (precisa já ter sudo):
+sudo usermod -aG sudo maria
+# Maria precisa sair e entrar de novo para o grupo valer.`,
       },
       {
         lang: "bash",
-        code: `# Boas praticas:
+        code: `# Virar root por uma sessão inteira — use com parcimônia:
+sudo -i
+# root@meupc:~#      <- o # avisa que agora você é root
+exit               # volta a ser usuário comum
 
-# 1) NUNCA rode 'sudo' em comando que voce nao entende.
-# 2) Prefira 'sudo' pontual a 'sudo -i' (menos chance de errar).
-# 3) Antes de rodar, leia o comando da esquerda para a direita.
-# 4) Em duvida, copie o comando e pesquise antes de apertar Enter.
-# 5) Nunca instale via 'curl ... | sudo bash' sem ler o script.`,
+# Prefira sudo pontual a 'sudo -i': menos chance de rodar algo perigoso por engano.`,
+      },
+      {
+        lang: "bash",
+        code: `# Boas práticas de segurança (decore estas):
+# 1) Nunca rode sudo em comando que você não entende.
+# 2) Prefira sudo pontual a virar root com sudo -i.
+# 3) Leia o comando da esquerda para a direita antes do Enter.
+# 4) Nunca instale com 'curl url | sudo bash' sem ler o script antes.
+# 5) Para simular sem executar, ponha echo na frente:
+echo sudo apt install pacote
+# sudo apt install pacote     (só imprime, não roda)`,
       },
     ],
     points: [
-      "sudo eleva so um comando ao nivel root; depois volta a usuario comum.",
-      "A senha do sudo e a SUA senha — nao existe senha separada de root no Lubuntu padrao.",
-      "Enquanto digita a senha, nada aparece na tela. E proposital, va digitando.",
-      "Truque: 'sudo !!' repete o ultimo comando com sudo na frente.",
-      "sudo tee resolve o problema de redirecionar saida com permissao (echo ... | sudo tee).",
-      "sudo -i abre uma sessao inteira como root — use so quando precisar mesmo.",
-      "Iniciante comum: rodar com sudo qualquer coisa que de erro de permissao, sem entender. Crie o habito de ler o erro antes.",
-      "Iniciante comum: copiar e colar 'curl ... | sudo bash' de blogs aleatorios. Isso roda codigo desconhecido como root — nao faca.",
-      "Quem pode usar sudo esta no grupo 'sudo' (veja com groups seu_usuario).",
+      "sudo eleva só um comando ao nível root; ao terminar, você volta a usuário comum.",
+      "A senha do sudo é a SUA senha — no Lubuntu padrão a conta root nem tem senha própria.",
+      "Enquanto você digita a senha, nada aparece na tela. É de propósito; digite normalmente.",
+      "'sudo !!' repete o último comando com sudo na frente — salva quando você esquece.",
+      "'echo ... | sudo tee arquivo' é a forma certa de escrever em /etc (o > sozinho não herda o sudo).",
+      "sudo -l mostra o que você pode rodar; \"is not in the sudoers file\" significa que a conta não tem sudo.",
+      "Adicione alguém ao sudo com 'sudo usermod -aG sudo usuário' (ele precisa relogar).",
+      "Iniciante comum: jogar sudo em qualquer erro de permissão sem entender — leia a mensagem antes.",
+      "Iniciante comum: colar 'curl url | sudo bash' de blogs — isso roda código desconhecido como root.",
+      "sudo -i abre sessão root inteira (prompt com #); use só quando realmente precisar.",
     ],
     alerts: [
       {
         type: "danger",
-        content: "Nunca rode 'sudo rm -rf /' nem variacoes. Esse comando apaga o sistema operacional inteiro. Existem versoes maliciosas disfarcadas em codigo decimal/hex em alguns sites — desconfie.",
+        content: "Nunca rode 'sudo rm -rf /' nem variações. Apaga o sistema operacional inteiro. Desconfie de 'soluções' de fóruns que escondem esse comando em código hexadecimal/decimal.",
       },
       {
         type: "warning",
-        content: "Nunca instale software com 'curl url | sudo bash' sem ler o script primeiro. Voce esta dando privilegio de root para um codigo que nao viu.",
+        content: "Não instale software com 'curl url | sudo bash' sem ler o script antes. Você estaria dando privilégio de root a um código que nunca viu.",
       },
       {
         type: "tip",
-        content: "Se quiser saber o que aquele comando com sudo faria sem executar, use 'echo' na frente: 'echo sudo apt install pacote' so imprime, nao roda.",
+        content: "Antes de rodar um comando com sudo que veio de fora, cole-o com 'echo' na frente para só imprimir. Se fizer sentido, tire o echo e rode de verdade.",
       },
       {
         type: "info",
-        content: "A senha do sudo fica em cache por uns 15 minutos no terminal atual. Se rodar varios sudos seguidos, so digita a senha uma vez.",
+        content: "A senha do sudo fica em cache por alguns minutos no terminal atual. Por isso vários sudo seguidos só pedem a senha uma vez.",
       },
     ],
   },
@@ -907,124 +896,115 @@ sudo usermod -aG sudo nome_do_outro_usuario
     section: "terminal",
     title: "Atalhos do bash que aceleram tudo",
     difficulty: "iniciante",
-    subtitle: "Tab, historico, Ctrl+R e movimentos pelo cursor.",
-    intro: `O bash (a "linguagem" do terminal padrao do Lubuntu) tem dezenas de atalhos pequenos que, juntos, multiplicam sua velocidade. A maioria das pessoas aprende dois ou tres no primeiro dia (Tab e seta para cima) e fica nisso para sempre. E uma pena, porque os outros atalhos ja vem instalados de graca e poupam horas por mes.
+    subtitle: "Tab, histórico, Ctrl+R, movimentos do cursor e aliases.",
+    intro: `O bash tem dezenas de atalhos pequenos que, somados, multiplicam sua velocidade. Quase todo mundo aprende dois ou três no primeiro dia (Tab e seta para cima) e para por aí. É uma pena, porque os outros já vêm de graça e economizam horas por mês.
 
-Pense no bash como um piano: cada teclinha de atalho e uma nota. Tab completa nomes (a "do central"), seta para cima resgata o ultimo comando (segunda nota mais usada), Ctrl+R busca no historico (a virada de chave para parar de redigitar), Ctrl+A vai para o inicio da linha, Ctrl+E para o fim. Em duas semanas de pratica, esses gestos viram automaticos.
+Pense no bash como um piano: cada atalho é uma nota. Tab completa nomes (a nota central), a seta para cima resgata o último comando, \`Ctrl+R\` busca no histórico (a virada de chave para parar de redigitar), \`Ctrl+A\` vai ao início da linha e \`Ctrl+E\` ao fim. Em duas semanas de prática, esses gestos viram automáticos.
 
-Os melhores atalhos sao para nao redigitar. \`!!\` repete o ultimo comando, \`!apt\` repete o ultimo que comecava com apt, \`!$\` reusa o ultimo argumento. Quando voce escreve um comando longo errado, em vez de redigitar, navega ate o erro com Ctrl+seta e corrige no lugar.
+Os melhores atalhos evitam redigitar. \`!!\` repete o último comando, \`!apt\` repete o último que começava com "apt", \`!$\` reaproveita o último argumento. Quando você escreve um comando longo e erra uma letra no meio, navega até lá com \`Ctrl+seta\` e corrige no lugar, em vez de apagar tudo.
 
-Este capitulo fecha a secao de terminal trazendo agilidade. Voce ja sabe navegar, manipular, ler, controlar processos, encanar comandos e usar sudo. Agora vai aprender a fazer tudo isso o dobro mais rapido. E quem domina os atalhos do bash logo prefere o terminal a qualquer interface grafica.`,
+Este capítulo fecha a trilha de terminal trazendo agilidade. Você já sabe navegar, manipular, ler, controlar processos, encanar comandos com pipe e usar sudo. Agora vai fazer tudo isso no dobro da velocidade — e criar seus próprios atalhos permanentes com aliases.`,
     codes: [
       {
         lang: "bash",
-        code: `# Tab completion: completa nomes de comando, arquivo e pasta
-cd Doc<Tab>            # vira: cd Documentos/
-sudo apt inst<Tab>     # vira: sudo apt install
-ls /et<Tab>            # vira: ls /etc/
+        code: `# Tab completion: completa comando, arquivo e pasta
+cd Doc<Tab>            # -> cd Documentos/
+sudo apt inst<Tab>     # -> sudo apt install
+ls /et<Tab>            # -> ls /etc/
 
-# Aperte Tab DUAS vezes para ver opcoes quando ha varias:
+# Tab DUAS vezes lista as opções quando há mais de uma:
 ls ~/D<Tab><Tab>
 # Documentos/  Downloads/`,
       },
       {
         lang: "bash",
-        code: `# Historico de comandos
-history          # mostra os ultimos 500 comandos numerados
-history 20       # so os ultimos 20
+        code: `# Histórico de comandos:
+history          # últimos comandos, numerados
+history 15       # só os 15 últimos
 
-# Repetindo um comando do historico pelo numero:
-!42              # roda o comando que tem numero 42 no history
-!!               # repete o ULTIMO comando
-!apt             # repete o ultimo comando que comecava com 'apt'
-!?install        # repete o ultimo comando que continha 'install'`,
+!42              # roda o comando de número 42 do history
+!!               # repete o ÚLTIMO comando
+!apt             # repete o último que começava com "apt"
+!?install        # repete o último que continha "install"`,
       },
       {
         lang: "bash",
-        code: `# Ctrl+R = busca interativa no historico (o atalho que muda a vida)
-# Aperte Ctrl+R, comece a digitar parte do comando.
+        code: `# Ctrl+R = busca interativa no histórico (o atalho que muda tudo)
+# Aperte Ctrl+R e comece a digitar parte do comando:
 # (reverse-i-search)\`apt\`: sudo apt install htop
-# - Enter executa
-# - Setas para frente/tras editam antes de executar
-# - Ctrl+R de novo busca a ocorrencia anterior
-# - Ctrl+G cancela a busca`,
+#   Enter executa | seta edita antes | Ctrl+R de novo busca o anterior | Ctrl+G cancela`,
       },
       {
         lang: "bash",
-        code: `# Reutilizando partes do comando anterior
+        code: `# Reaproveitar pedaços do comando anterior:
 ls ~/Documentos/relatorio.pdf
 xdg-open !$
-# !$ vira o ultimo argumento do comando anterior
-# Equivale a: xdg-open ~/Documentos/relatorio.pdf
+#  -> !$ vira o último argumento: xdg-open ~/Documentos/relatorio.pdf
 
-mv arquivo.txt /pasta/destino/
-cd !$            # vai para /pasta/destino/
-
-# !* pega TODOS os argumentos do anterior
-echo um dois tres
-ls !*            # equivale a: ls um dois tres`,
+mkdir -p ~/projetos/site
+cd !$
+#  -> cd ~/projetos/site`,
       },
       {
         lang: "bash",
-        code: `# Movendo o cursor sem usar a seta letra-por-letra
-# Ctrl + A   -> inicio da linha
-# Ctrl + E   -> fim da linha
-# Alt  + B   -> uma palavra para tras
-# Alt  + F   -> uma palavra para frente
-# Ctrl + ←/→ -> uma palavra para tras/frente (em alguns terminais)`,
+        code: `# Mover o cursor e apagar trechos sem usar seta letra por letra:
+#   Ctrl+A  início da linha     Ctrl+E  fim da linha
+#   Alt+B   uma palavra atrás    Alt+F   uma palavra à frente
+#   Ctrl+U  apaga até o início   Ctrl+K  apaga até o fim
+#   Ctrl+W  apaga uma palavra    Ctrl+Y  cola o que você cortou
+#   Ctrl+L  limpa a tela (mantém o que já digitou na linha)`,
       },
       {
         lang: "bash",
-        code: `# Apagando trechos da linha
-# Ctrl + U   -> apaga do cursor ate o INICIO da linha
-# Ctrl + K   -> apaga do cursor ate o FIM
-# Ctrl + W   -> apaga uma palavra para tras
-# Ctrl + Y   -> "cola" o que voce acabou de cortar com Ctrl+U/K/W
+        code: `# Controle da execução:
+#   Ctrl+C  interrompe o comando que está rodando
+#   Ctrl+D  sai do shell (igual a exit)
+#   Ctrl+Z  pausa o comando (retoma em segundo plano com bg, ou à frente com fg)
 
-# Limpando a tela sem perder o que digitou
-# Ctrl + L   -> mesmo efeito que 'clear'`,
+sleep 60
+# ^C          <- Ctrl+C cancela o sleep imediatamente`,
       },
       {
         lang: "bash",
-        code: `# Outros atalhos uteis
-# Ctrl + C   -> interrompe o comando que esta rodando
-# Ctrl + D   -> sai do shell (equivale a 'exit')
-# Ctrl + Z   -> pausa o comando (manda para background, retoma com fg)
-
-# Criando seu proprio atalho permanente (alias) no ~/.bashrc
+        code: `# Aliases: seus atalhos permanentes no ~/.bashrc
 echo "alias ll='ls -lhA'" >> ~/.bashrc
 echo "alias ..='cd ..'"   >> ~/.bashrc
+echo "alias update='sudo apt update && sudo apt upgrade'" >> ~/.bashrc
 source ~/.bashrc          # recarrega para valer agora
-ll                        # ja funciona`,
+ll                        # já funciona
+
+# Guardar data/hora no histórico (útil para lembrar quando rodou algo):
+echo 'export HISTTIMEFORMAT="%d/%m %H:%M  "' >> ~/.bashrc`,
       },
     ],
     points: [
-      "Tab completa nomes; Tab Tab mostra opcoes quando ha mais de uma.",
-      "Seta para cima/baixo navega no historico; Ctrl+R faz busca interativa.",
-      "!! repete o ultimo comando; !$ reusa o ultimo argumento; !apt repete o ultimo que comecava com 'apt'.",
-      "Ctrl+A vai ao inicio, Ctrl+E ao fim; Alt+B/F andam palavra por palavra.",
-      "Ctrl+U apaga ate o inicio, Ctrl+K ate o fim, Ctrl+W uma palavra atras.",
-      "Ctrl+L limpa a tela mantendo o que voce ja digitou na linha.",
-      "Iniciante comum: redigitar comandos longos em vez de usar seta para cima ou Ctrl+R.",
-      "Iniciante comum: nunca abrir o ~/.bashrc para criar atalhos pessoais (aliases).",
-      "Aliases no ~/.bashrc sao a forma definitiva de personalizar — duram entre sessoes.",
+      "Tab completa nomes; Tab Tab lista as opções quando há mais de uma.",
+      "Seta para cima/baixo percorre o histórico; Ctrl+R faz busca interativa nele.",
+      "!! repete o último comando; !$ reaproveita o último argumento; !apt repete o último que começava com \"apt\".",
+      "Ctrl+A vai ao início, Ctrl+E ao fim; Alt+B/Alt+F andam palavra por palavra.",
+      "Ctrl+U apaga até o início, Ctrl+K até o fim, Ctrl+W uma palavra atrás, Ctrl+Y cola de volta.",
+      "Ctrl+C interrompe o comando atual; Ctrl+Z pausa; Ctrl+L limpa a tela sem perder a linha.",
+      "Aliases no ~/.bashrc criam atalhos permanentes; rode source ~/.bashrc para aplicar na hora.",
+      "Iniciante comum: redigitar comandos longos em vez de usar a seta para cima ou o Ctrl+R.",
+      "Iniciante comum: nunca abrir o ~/.bashrc para criar aliases — perde o maior ganho de produtividade.",
+      "HISTTIMEFORMAT guarda data/hora de cada comando no histórico — bom para auditar o que você fez.",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Treine Ctrl+R por uma semana, repetindo de proposito. Em uns 10 dias vira muscular: voce nem pensa, ja esta buscando.",
+        content: "Treine o Ctrl+R de propósito por uma semana. Em uns 10 dias vira memória muscular: você nem pensa, já está buscando o comando antigo em vez de redigitar.",
       },
       {
         type: "info",
-        content: "O historico e gravado em ~/.bash_history quando voce sai do shell. HISTSIZE=10000 no ~/.bashrc aumenta a quantidade guardada.",
+        content: "O histórico é salvo em ~/.bash_history ao sair do shell. Aumente o tamanho com HISTSIZE=10000 e HISTFILESIZE=20000 no ~/.bashrc.",
       },
       {
         type: "warning",
-        content: "Senhas digitadas no terminal podem aparecer no historico. Para um comando especifico, comece com um espaco — bash ignora linhas iniciadas por espaco se HISTCONTROL incluir 'ignorespace'.",
+        content: "Comandos com senha ficam registrados no histórico. Comece a linha com um espaço para o bash ignorá-la (funciona com HISTCONTROL=ignorespace, padrão no Ubuntu).",
       },
       {
         type: "success",
-        content: "Aliases pessoais sao a marca de quem usa Linux ha tempo. Comece com ll='ls -lhA', gs='git status', ..='cd ..'. Em pouco tempo voce tem dezenas.",
+        content: "Aliases pessoais são a marca de quem usa Linux há tempo. Comece com ll='ls -lhA', ..='cd ..' e update='sudo apt update && sudo apt upgrade'. Logo você terá dezenas.",
       },
     ],
   },

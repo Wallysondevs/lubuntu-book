@@ -25,7 +25,7 @@ export default function PageContainer({ title, subtitle, difficulty, children }:
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{title}</h1>
         {subtitle && <p className="mt-2 text-slate-600 dark:text-slate-400">{subtitle}</p>}
       </div>
-      <div className="prose-py">{children}</div>
+      <div className="prose-lu">{children}</div>
     </motion.article>
   );
 }

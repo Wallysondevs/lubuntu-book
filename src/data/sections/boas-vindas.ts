@@ -21,7 +21,7 @@ Antes de pular para os capítulos técnicos, este primeiro capítulo só quer te
 # este é o comando mais inofensivo do mundo: ele só mostra o nome do sistema.
 uname -a
 # saída exemplo:
-# Linux meu-pc 6.8.0-40-generic #40-Ubuntu SMP x86_64 GNU/Linux`,
+# Linux meu-pc 7.0.0-14-generic #14-Ubuntu SMP x86_64 GNU/Linux`,
       },
       {
         lang: "bash",
@@ -29,9 +29,9 @@ uname -a
 lsb_release -a
 # saída exemplo:
 # Distributor ID: Ubuntu
-# Description:    Ubuntu 24.04.1 LTS
-# Release:        24.04
-# Codename:       noble`,
+# Description:    Ubuntu 26.04.1 LTS
+# Release:        26.04
+# Codename:       resolute`,
       },
       {
         lang: "bash",
@@ -77,7 +77,7 @@ pwd
     alerts: [
       {
         type: "info",
-        content: "Este livro assume Lubuntu 24.04 LTS (Noble Numbat) ou versão mais recente. Versões muito antigas podem ter caminhos e nomes ligeiramente diferentes.",
+        content: "Este livro assume Lubuntu 26.04 LTS (Resolute Raccoon) ou versão mais recente. Versões muito antigas podem ter caminhos e nomes ligeiramente diferentes.",
       },
       {
         type: "tip",
@@ -109,9 +109,9 @@ Saber o que é uma distro te ajuda a navegar no mundo Linux: quando alguém diss
 cat /etc/os-release
 # saída resumida:
 # NAME="Ubuntu"
-# VERSION="24.04.1 LTS (Noble Numbat)"
+# VERSION="26.04.1 LTS (Resolute Raccoon)"
 # ID=ubuntu
-# PRETTY_NAME="Ubuntu 24.04.1 LTS"
+# PRETTY_NAME="Ubuntu 26.04.1 LTS"
 # Repare: o ID é "ubuntu", não "lubuntu". O sabor está em cima, não na base.`,
       },
       {
@@ -153,7 +153,7 @@ free -h
 
 # Versão do kernel Linux que está rodando:
 uname -r
-# saída exemplo: 6.8.0-40-generic
+# saída exemplo: 7.0.0-14-generic
 # O kernel é o "núcleo" do sistema — a peça que conversa com o hardware.`,
       },
     ],
@@ -323,11 +323,11 @@ ps -e | grep -E 'lxqt|openbox'
         lang: "bash",
         code: `# Versão do LXQt instalada:
 lxqt-about
-# Abre uma janelinha com a versão (ex: LXQt 1.4.0).
+# Abre uma janelinha com a versão (ex: LXQt 2.2.0).
 # Se quiser pelo terminal:
 dpkg -l lxqt-session | grep ^ii
 # saída exemplo:
-# ii  lxqt-session  1.4.0-1ubuntu1  amd64  LXQt Session Manager`,
+# ii  lxqt-session  2.2.0-1ubuntu1  amd64  LXQt Session Manager`,
       },
       {
         lang: "bash",
@@ -593,10 +593,10 @@ Você também pode (e deve) pedir ajuda em português. A comunidade brasileira �
         lang: "text",
         code: `# Modelo de pergunta que funciona em qualquer comunidade:
 
-# Título: Wi-Fi não conecta no Lubuntu 24.04 (Realtek RTL8821CE)
+# Título: Wi-Fi não conecta no Lubuntu 26.04 (Realtek RTL8821CE)
 #
 # Corpo:
-# Olá! Instalei o Lubuntu 24.04 num notebook Acer Aspire 5.
+# Olá! Instalei o Lubuntu 26.04 num notebook Acer Aspire 5.
 # O Wi-Fi aparece desligado e não consigo ativar.
 # Pelo cabo de rede funciona normal.
 #
@@ -608,7 +608,7 @@ Você também pode (e deve) pedir ajuda em português. A comunidade brasileira �
 # Saída de comandos:
 # (cole aqui a saída de lspci -knn | grep -iA 3 net)
 #
-# Versão: Lubuntu 24.04.1 LTS, kernel 6.8.0-40-generic
+# Versão: Lubuntu 26.04.1 LTS, kernel 7.0.0-14-generic
 # Obrigado!`,
       },
       {

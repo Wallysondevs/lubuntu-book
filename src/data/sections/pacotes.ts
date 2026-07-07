@@ -6,79 +6,115 @@ export const chapters: Chapter[] = [
     section: "pacotes",
     title: "Discover: a loja de aplicativos do Lubuntu",
     difficulty: "iniciante",
-    subtitle: "Instalando programas pela interface gráfica, sem terminal.",
-    intro: `Imagine o Discover como a Play Store ou a App Store do seu Lubuntu. É uma vitrine bonitinha onde você procura programas pelo nome, vê uma descrição, lê avaliações e clica em "Instalar". Tudo grátis, tudo conferido pela equipe do Ubuntu, sem risco de baixar um instalador suspeito do Google.
+    subtitle: "Instalando programas pela interface gráfica, sem tocar no terminal.",
+    intro: `Se você está vindo do Windows ou do celular, a primeira pergunta é sempre a mesma: "onde eu baixo os programas?". No Lubuntu a resposta **não** é abrir o navegador e caçar um instalador — é abrir uma loja, exatamente como a Play Store ou a App Store. Essa loja se chama **Discover** (em algumas versões, **Muon**), e ela é a porta de entrada mais tranquila para quem ainda não domina o terminal.
 
-Por baixo do pano, o Discover não inventa nada: ele fala com o \`apt\` (que veremos no próximo capítulo) e com os pacotes Snap. A vantagem é que você não precisa decorar comandos no começo. Basta saber digitar o nome do programa e clicar. É a porta de entrada perfeita para quem está saindo do Windows.
+## O que o Discover realmente é
 
-Outra coisa que o Discover faz por você é avisar quando há atualizações. Aparece uma bolinha laranja na bandeja do sistema, você abre, lê o que mudou e clica em aplicar. Mais simples impossível. No fim deste capítulo, você vai instalar o seu primeiro programa pelo Lubuntu — e já vai entender de onde os programas vêm.`,
+O Discover é só uma **vitrine bonita** por cima de coisas que já existem no sistema. Ele não inventa programa nenhum: quando você clica em "Instalar", por baixo do pano ele chama o \`apt\` (o gerenciador oficial, que veremos no próximo capítulo) ou o \`snap\`. Entender isso tira o medo — você não está baixando nada suspeito da internet, está pedindo um pacote assinado digitalmente que passou pela equipe do Ubuntu.
+
+Pense em três camadas:
+
+- **Discover** — a loja com fotos, descrição e botão. É o que você vê.
+- **apt / snap** — os motores que baixam e instalam de verdade. É o que faz o trabalho.
+- **Repositórios** — os servidores oficiais do Ubuntu de onde tudo vem. É a "fábrica".
+
+## Por que começar por aqui
+
+Porque é impossível errar feio. Você não digita comando, não usa \`sudo\` na mão, não corre risco de apagar o sistema. É o ambiente perfeito para instalar seus 4 ou 5 primeiros programas (um navegador, um player de vídeo, um editor de imagem) e ganhar confiança. Quando o terminal deixar de ser assustador, você vai preferir o \`apt\` pela velocidade — mas o Discover continua útil para descobrir programas que você nem sabia que existiam.`,
     codes: [
       {
         lang: "bash",
-        code: `# Se o Discover não estiver instalado (Lubuntu mínimo às vezes não inclui),
-# abra o QTerminal e instale com apt:
-sudo apt update
-sudo apt install plasma-discover -y
-# saída: ... 1 upgraded, 1 newly installed ...`,
+        code: `# Em alguns Lubuntu "mínimos" a loja não vem instalada.
+# Confira se o Discover existe:
+which plasma-discover
+# /usr/bin/plasma-discover   -> já tem, pode pular a instalação
+# (nada)                     -> não tem, instale abaixo`,
       },
       {
         lang: "bash",
-        code: `# Para abrir o Discover pelo terminal (testando):
+        code: `# Instalando a loja (só se o 'which' acima não achou nada):
+sudo apt update
+sudo apt install plasma-discover -y
+# ...
+# Setting up plasma-discover (5.27.x) ...
+# 1 upgraded, 1 newly installed, 0 to remove`,
+      },
+      {
+        lang: "bash",
+        code: `# Abrindo pelo terminal (útil para testar):
 plasma-discover &
-# saída: nada — abre a janela do Discover.
-# O & no final manda o programa rodar em segundo plano.`,
+# O & manda o programa para segundo plano e devolve o terminal para você.
+# Não sai nada na tela — a JANELA do Discover é que abre.
+
+# No dia a dia, prefira: Menu (canto inferior esquerdo) > Sistema > Discover`,
       },
       {
         lang: "text",
-        code: `# Fluxo dentro da janela do Discover (passo a passo):
-# 1. Clique na lupa no topo
-# 2. Digite o nome do programa, ex: "vlc"
-# 3. Clique no resultado correspondente
-# 4. Leia descrição, screenshots e tamanho
-# 5. Clique no botão "Instalar"
-# 6. Digite sua senha quando pedir (é o sudo gráfico)
-# 7. Aguarde a barra de progresso terminar`,
+        code: `Fluxo dentro da janela (passo a passo):
+
+  1. Clique na LUPA no canto superior.
+  2. Digite o nome do programa. Ex.:  vlc
+  3. Clique no resultado certo (confira o ícone e o autor).
+  4. Leia a descrição, veja os prints e o tamanho do download.
+  5. Clique em "Instalar".
+  6. Digite sua senha quando pedir  (é o sudo, só que gráfico).
+  7. Espere a barra terminar. Pronto: o ícone aparece no Menu.`,
       },
       {
         lang: "bash",
-        code: `# Depois de instalar, o programa aparece no Menu LXQt
-# (canto inferior esquerdo). Para conferir pelo terminal:
+        code: `# Depois de instalar pela loja, dá para confirmar no terminal:
 which vlc
-# saída esperada: /usr/bin/vlc
-vlc --version
-# saída: VLC media player 3.0.x ...`,
+# /usr/bin/vlc
+vlc --version | head -n1
+# VLC media player 3.0.21 Vetinari ...`,
       },
       {
         lang: "bash",
-        code: `# O Discover também desinstala. Mas se preferir terminal:
+        code: `# O Discover também DESINSTALA (aba "Instalados" > botão Remover).
+# Se preferir tirar pelo terminal, é uma linha:
 sudo apt remove vlc -y
-# saída: ... 1 to remove ...
-# Para apagar inclusive arquivos de configuração:
-sudo apt purge vlc -y`,
+# ...
+# The following packages will be REMOVED:
+#   vlc
+# 1 to remove.`,
+      },
+      {
+        lang: "bash",
+        code: `# Atualizações também aparecem no Discover (aba "Atualizações").
+# Um aviso surge na bandeja do sistema (perto do relógio).
+# Você pode conferir o mesmo pelo terminal:
+apt list --upgradable 2>/dev/null | head
+# Listing... Done
+# firefox/... 124.0 amd64 [upgradable from: 123.0]`,
       },
     ],
     points: [
-      "Discover é a loja de aplicativos gráfica padrão do Lubuntu (LXQt).",
-      "Por baixo dele rodam o apt e o Snap — ele é só uma cara bonita.",
-      "Procurar pelo nome funciona na maioria dos casos (vlc, gimp, libreoffice).",
-      "Atualizações do sistema aparecem com um aviso na bandeja do sistema.",
-      "Iniciante comum: tentar instalar baixando .exe da internet — no Linux isso não funciona.",
-      "Iniciante comum: pular o Discover e ir direto ao terminal sem entender o que ele faz.",
-      "Sempre digite a senha quando pedir: é o equivalente gráfico do sudo.",
-      "Se o Discover travar, feche tudo e use \`sudo apt install\` no terminal.",
+      "Discover (ou Muon) é a loja gráfica de aplicativos padrão do Lubuntu.",
+      "Ele é só uma interface: por baixo rodam o `apt` e o `snap` — nada é baixado de sites aleatórios.",
+      "Todo programa da loja é **assinado** e vem dos repositórios oficiais do Ubuntu.",
+      "Procurar pelo nome resolve a maioria dos casos: `vlc`, `gimp`, `libreoffice`, `firefox`.",
+      "Instalar exige só a sua senha (é o `sudo` gráfico) — você não digita comando nenhum.",
+      "Atualizações do sistema aparecem como aviso na bandeja, perto do relógio.",
+      "Erro clássico de iniciante: procurar um `.exe` na internet — no Linux isso quase nunca é o caminho.",
+      "Se o Discover travar ou ficar lento, feche e use `sudo apt install <programa>` no terminal.",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Antes de instalar, leia a descrição. Programas com poucos downloads ou sem screenshots às vezes são abandonados — confira a data da última atualização.",
+        content: "Antes de instalar, olhe a **data da última atualização** e o autor. Programa sem prints, com poucos downloads e parado há anos costuma estar abandonado — procure uma alternativa mantida.",
       },
       {
         type: "info",
-        content: "Lubuntu vem com o Muon ou com o Discover dependendo da versão. Os dois fazem a mesma coisa: gerenciar pacotes graficamente.",
+        content: "Dependendo da versão, o Lubuntu traz o **Muon** em vez do Discover. Os dois fazem a mesma coisa (gerenciar pacotes graficamente); os passos são praticamente idênticos.",
       },
       {
         type: "warning",
-        content: "Não instale .exe de Windows pelo Linux. Para isso existe o Wine, mas é assunto avançado e foge do propósito desta seção.",
+        content: "Não tente instalar `.exe` de Windows pela loja — não vai funcionar. Programas de Windows exigem o **Wine**, que é assunto avançado e foge desta trilha.",
+      },
+      {
+        type: "success",
+        content: "Kit inicial recomendado pela loja para quem acabou de instalar: um navegador (Firefox), um player (VLC), um editor de imagem (GIMP) e o pacote de escritório (LibreOffice). Com esses quatro você já faz 90% das tarefas do dia.",
       },
     ],
   },
@@ -87,344 +123,466 @@ sudo apt purge vlc -y`,
     section: "pacotes",
     title: "APT: o gerenciador de pacotes do terminal",
     difficulty: "iniciante",
-    subtitle: "O comando que faz tudo no Ubuntu, do zero.",
-    intro: `O \`apt\` (Advanced Package Tool) é o coração do gerenciamento de software no Lubuntu. Pense nele como um carteiro inteligente: você diz "quero o programa tal" e ele vai até o servidor oficial do Ubuntu, baixa o pacote, confere a assinatura digital, instala e organiza tudo. Você não precisa caçar instalador na internet, não precisa rodar antivírus depois.
+    subtitle: "O comando que resolve quase tudo no Ubuntu — do jeito certo, do zero.",
+    intro: `Se você aprender **um** comando de terminal no Lubuntu, que seja o \`apt\`. Ele é o gerenciador de pacotes: a ferramenta que instala, atualiza, procura e remove software. Depois que a mão pega o jeito, instalar um programa vira mais rápido do que abrir a loja — uma linha e pronto.
 
-A grande sacada do apt é que ele entende dependências. Se você instala o GIMP, ele percebe que precisa também de várias bibliotecas e instala todas juntas. Quando você desinstala, ele oferece remover o que ficou pendurado. É o jeito mais confiável de cuidar do software do seu sistema.
+## O carteiro inteligente
 
-Quase todo comando do apt precisa de \`sudo\` na frente, porque está mexendo em arquivos do sistema todo, não só na sua pasta de usuário. Decorar uns 6 ou 7 comandos do apt é o suficiente para você sobreviver muito bem no Lubuntu. É menos do que parece.`,
+Pense no \`apt\` como um carteiro que conhece o endereço de tudo. Você diz "quero o GIMP" e ele: vai ao servidor oficial do Ubuntu, confere a **assinatura digital** do pacote (garantindo que ninguém adulterou), baixa, resolve o que mais é necessário e instala tudo organizado. Você não caça instalador, não roda antivírus depois, não acumula lixo.
+
+## Dependências: a mágica que você nem vê
+
+Todo programa depende de outros pedaços (bibliotecas). O GIMP precisa de bibliotecas de imagem, o VLC de codecs, e assim por diante. O grande trunfo do \`apt\` é resolver isso sozinho: peça o GIMP e ele traz junto as dependências certas; remova o GIMP e ele oferece limpar o que ficou sem uso. Você pensa em "programas", ele cuida das "peças".
+
+## As duas listas que confundem todo mundo
+
+Existe uma diferença que precisa ficar clara agora:
+
+- \`sudo apt update\` — atualiza a **LISTA** do que existe nos servidores. **Não instala nada.** É conferir o cardápio.
+- \`sudo apt upgrade\` — **aplica** as atualizações dos programas já instalados. É pedir o prato.
+
+Quase todo comando que **muda** o sistema pede \`sudo\` na frente (porque mexe em arquivos de todos, não só na sua pasta). Já comandos que só **leem** (\`search\`, \`show\`, \`list\`) não precisam.`,
     codes: [
       {
         lang: "bash",
-        code: `# Atualizar a LISTA de pacotes disponíveis (não instala nada ainda).
-# Faça isso sempre antes de instalar algo novo.
+        code: `# 1) Atualizar a LISTA de pacotes (faça sempre antes de instalar algo novo):
 sudo apt update
-# saída: Hit:1 http://br.archive.ubuntu.com/ubuntu noble InRelease ...
-# Reading package lists... Done`,
+# Hit:1 http://br.archive.ubuntu.com/ubuntu resolute InRelease
+# Get:2 http://br.archive.ubuntu.com/ubuntu resolute-updates InRelease
+# Reading package lists... Done
+# All packages are up to date.  (ou "N packages can be upgraded")`,
       },
       {
         lang: "bash",
-        code: `# Procurar um pacote pelo nome ou descrição
-apt search firefox
-# saída: vai listar firefox, firefox-esr, firefox-locale-pt-br ...
-# search NÃO precisa de sudo — só lê.`,
+        code: `# 2) Procurar um pacote pelo nome ou descrição (NÃO precisa de sudo):
+apt search htop
+# Sorting... Done
+# Full Text Search... Done
+# htop/resolute 3.3.0-1 amd64
+#   interactive processes viewer`,
       },
       {
         lang: "bash",
-        code: `# Ver detalhes de um pacote antes de instalar
-apt show vlc
-# saída: Package: vlc
-# Version: 3.0.x
-# Description: multimedia player and streamer
-# Depends: vlc-bin, vlc-plugin-base ...`,
+        code: `# 3) Ver os detalhes ANTES de instalar (tamanho, versão, do que depende):
+apt show htop
+# Package: htop
+# Version: 3.3.0-1
+# Installed-Size: 340 kB
+# Depends: libc6, libncursesw6, libtinfo6
+# Description: interactive processes viewer ...`,
       },
       {
         lang: "bash",
-        code: `# Instalar um pacote
+        code: `# 4) Instalar. O -y responde "sim" às confirmações automaticamente:
 sudo apt install htop -y
-# -y aceita perguntas automaticamente
-# saída: ... Setting up htop ...
-# Agora o comando htop está disponível:
-htop
-# (aperte q para sair)`,
+# The following NEW packages will be installed:
+#   htop
+# Setting up htop (3.3.0-1) ...
+# Agora o comando existe:
+htop      # abre o monitor; aperte  q  para sair`,
       },
       {
         lang: "bash",
-        code: `# Listar tudo que está instalado no sistema
-apt list --installed
-# saída longa — combine com grep para filtrar:
-apt list --installed | grep firefox
-# saída: firefox/noble,now 122.0 amd64 [installed]`,
+        code: `# 5) Instalar VÁRIOS de uma vez (ótimo para montar um "kit" pós-instalação):
+sudo apt install neofetch tree curl git unzip -y
+# Só separar por espaço. O apt baixa e configura todos juntos.`,
       },
       {
         lang: "bash",
-        code: `# Cada execução do apt deixa log em /var/log/apt/
-# Útil quando algo deu errado:
-ls /var/log/apt/
-# saída: history.log  term.log  ...
-# Olhe o histórico:
-tail /var/log/apt/history.log`,
+        code: `# 6) Descobrir se algo já está instalado e qual versão:
+apt list --installed 2>/dev/null | grep firefox
+# firefox/resolute,now 124.0 amd64 [installed]
+
+# Ou, mais direto, "onde está o executável?":
+which firefox
+# /usr/bin/firefox`,
+      },
+      {
+        lang: "bash",
+        code: `# 7) O erro campeão do iniciante — instalar SEM ter feito 'update' antes:
+sudo apt install algum-pacote
+# E: Unable to locate package algum-pacote
+#
+# Quase sempre a lista está velha. Solução:
+sudo apt update           # atualiza a lista
+sudo apt install algum-pacote -y   # tente de novo`,
+      },
+      {
+        lang: "bash",
+        code: `# 8) Cada ação do apt fica registrada. Quando algo dá errado, o log conta a história:
+tail -n 5 /var/log/apt/history.log
+# Start-Date: 2026-05-06  14:32:10
+# Commandline: apt install htop
+# Install: htop:amd64 (3.3.0-1)
+# End-Date: 2026-05-06  14:32:12`,
       },
     ],
     points: [
-      "apt = ferramenta padrão de pacotes em Ubuntu/Lubuntu/Debian.",
-      "Sempre rode \`sudo apt update\` antes de \`apt install\` para ter a lista fresca.",
-      "search e show não precisam de sudo; install, remove e upgrade precisam.",
-      "Dependências são resolvidas automaticamente — você não instala biblioteca a biblioteca.",
-      "A flag -y serve para responder \"sim\" a confirmações sem precisar digitar nada.",
-      "Iniciante comum: rodar \`apt install\` sem \`apt update\` antes — pega versão velha ou erro 404.",
-      "Iniciante comum: confundir \`apt\` (moderno, amigável) com \`apt-get\` (antigo, ainda funciona mas verboso).",
-      "Logs ficam em /var/log/apt/ — ótimos quando algo quebra e você quer entender.",
+      "`apt` é a ferramenta padrão de pacotes em Ubuntu, Lubuntu e Debian.",
+      "Rode `sudo apt update` **antes** de `apt install` para ter a lista fresca — pula esse passo e vem `Unable to locate package`.",
+      "`search` e `show` só leem: não precisam de `sudo`. `install`, `remove` e `upgrade` mudam o sistema: precisam.",
+      "Dependências são resolvidas sozinhas — você nunca instala biblioteca por biblioteca na mão.",
+      "A flag `-y` responde 'sim' às perguntas; útil, mas leia o resumo antes em operações grandes.",
+      "Dá para instalar vários pacotes numa linha só, separados por espaço.",
+      "`apt` (moderno e amigável) e `apt-get` (antigo, ainda usado em scripts) coexistem e funcionam.",
+      "Logs de tudo ficam em `/var/log/apt/history.log` — o primeiro lugar para olhar quando algo quebra.",
     ],
     alerts: [
       {
         type: "warning",
-        content: "Nunca interrompa um \`apt install\` no meio (Ctrl+C). Pode deixar o sistema com pacote pela metade. Se acontecer, rode \`sudo dpkg --configure -a\` para arrumar.",
+        content: "**Nunca** cancele um `apt install` no meio com Ctrl+C. Você pode deixar um pacote pela metade e travar futuras instalações. Se acontecer, o conserto é `sudo dpkg --configure -a` seguido de `sudo apt install -f`.",
       },
       {
         type: "tip",
-        content: "Aperte Tab depois de digitar parte de um nome de pacote — o terminal autocompleta. Ex: \`sudo apt install fire\` + Tab → mostra firefox e amigos.",
+        content: "Digite parte do nome e aperte **Tab** — o terminal autocompleta. Ex.: `sudo apt install fire` + Tab mostra `firefox` e amigos. Menos digitação, menos erro de nome.",
       },
       {
         type: "info",
-        content: "Existe \`apt-get\` (versão antiga, ainda usada em scripts) e \`apt\` (versão amigável, recomendada para uso humano). Os dois funcionam.",
+        content: "Diferença rápida: `apt` foi feito para humanos (saída colorida, barra de progresso); `apt-get` é a versão antiga, estável e verbosa, preferida dentro de scripts. Para o dia a dia, use `apt`.",
+      },
+      {
+        type: "success",
+        content: "Crie um kit reproduzível: guarde num arquivo de texto a linha `sudo apt install htop tree curl git neofetch -y`. Depois de qualquer reinstalação, cole e em segundos o sistema volta ao seu gosto.",
       },
     ],
   },
   {
     slug: "atualizar-sistema",
     section: "pacotes",
-    title: "Atualizando o sistema",
+    title: "Mantendo o sistema atualizado",
     difficulty: "iniciante",
-    subtitle: "Como manter Lubuntu seguro e em dia com poucos comandos.",
-    intro: `Sistema desatualizado é casa com porta destrancada. As atualizações trazem correções de segurança que tampam buracos descobertos por pesquisadores no mundo inteiro. Felizmente, no Lubuntu atualizar é rápido e raramente quebra coisa — bem diferente do "atualizar e rezar" do Windows.
+    subtitle: "Segurança e programas em dia com dois comandos — e sem medo.",
+    intro: `Sistema desatualizado é casa com a porta destrancada. A maioria das atualizações do Lubuntu são **correções de segurança**: buracos que pesquisadores descobriram e que os mantenedores fecharam. Manter em dia é a coisa mais barata que você faz pela sua segurança — e, ao contrário do "atualizar e rezar" do Windows, aqui raramente quebra algo.
 
-Há dois passos no processo: primeiro o sistema busca a lista de versões novas (\`update\`), depois ele aplica essas atualizações (\`upgrade\`). É como conferir o cardápio antes de pedir o prato. Você sempre faz update antes de upgrade, para não pedir versão que sumiu.
+## O ritual dos dois passos
 
-A frequência ideal é uma vez por semana. Algumas atualizações pedem reinício, principalmente as do kernel (núcleo do Linux). O sistema avisa quando isso acontece. Iniciantes às vezes ficam ansiosos com a tela cheia de texto correndo no upgrade — é normal, é o apt mostrando o que está fazendo. Deixe terminar tranquilo.`,
+Atualizar é sempre a mesma dupla, na mesma ordem:
+
+- \`sudo apt update\` — busca a lista nova de versões. **Confere o cardápio.**
+- \`sudo apt upgrade\` — aplica as atualizações disponíveis. **Pede o prato.**
+
+Você faz \`update\` antes de \`upgrade\` para não pedir uma versão que já saiu do cardápio. Inverter a ordem é o erro nº 1 de quem está começando.
+
+## upgrade x full-upgrade
+
+- \`upgrade\` é conservador: atualiza o que dá **sem remover** nada.
+- \`full-upgrade\` é mais completo: aceita **remover** um pacote antigo se isso for necessário para instalar a versão nova de outro. Use quando o \`upgrade\` disser "os seguintes pacotes foram retidos" (kept back).
+
+## Com que frequência?
+
+Uma vez por semana é ótimo para uso doméstico. Algumas atualizações — principalmente do **kernel** (o núcleo do Linux), do \`systemd\` ou da \`libc\` — pedem reinício para valer. O sistema cria um arquivo avisando, e você reinicia quando for conveniente. Aquele monte de texto correndo na tela durante o \`upgrade\` é **normal**: é o \`apt\` narrando o que faz. Deixe terminar em paz.`,
     codes: [
       {
         lang: "bash",
-        code: `# Atualização básica em duas linhas
-sudo apt update           # busca o cardápio novo
-sudo apt upgrade -y       # aplica os updates disponíveis
-# saída resumida no fim:
-# X upgraded, 0 newly installed, 0 to remove`,
+        code: `# A dupla do dia a dia:
+sudo apt update
+sudo apt upgrade -y
+# ...
+# The following packages will be upgraded:
+#   firefox libreoffice-core ...
+# 12 upgraded, 0 newly installed, 0 to remove.
+# ...
+# 12 upgraded, 0 newly installed, 0 to remove.`,
       },
       {
         lang: "bash",
-        code: `# Versão mais completa: também remove pacotes que não são mais
-# necessários e atualiza coisas que mudaram de dependências.
+        code: `# Só espiar o que SERIA atualizado, sem aplicar nada:
+apt list --upgradable
+# Listing... Done
+# firefox/resolute-updates 124.0 amd64 [upgradable from: 123.0]
+# libreoffice-core/resolute-updates 24.8 amd64 [upgradable from: 24.2]`,
+      },
+      {
+        lang: "bash",
+        code: `# Versão mais completa: resolve dependências que mudaram + faz faxina:
 sudo apt update
 sudo apt full-upgrade -y
-sudo apt autoremove -y    # remove kernels e libs órfãs`,
+sudo apt autoremove -y    # remove kernels antigos e bibliotecas órfãs`,
       },
       {
         lang: "bash",
-        code: `# Ver o que SERIA atualizado, sem aplicar nada
-apt list --upgradable
-# saída: firefox/noble-updates 123.0 amd64 [upgradable from: 122.0]
-#        ...`,
+        code: `# "The following packages have been kept back" — e agora?
+# Significa que 'upgrade' não quis mexer porque exigiria remover algo.
+# A solução é o full-upgrade:
+sudo apt full-upgrade -y`,
       },
       {
         lang: "bash",
-        code: `# Algumas atualizações pedem reboot (kernel, libc, systemd).
-# O Lubuntu cria este arquivo quando isso acontece:
-ls /var/run/reboot-required 2>/dev/null && echo "Reinicie o PC!"
-# saída: /var/run/reboot-required
-# Reinicie o PC!`,
+        code: `# Depois de atualizar, o sistema pode precisar reiniciar.
+# Ele avisa criando este arquivo:
+if [ -f /var/run/reboot-required ]; then
+  echo "Reinício necessário (provavelmente atualizou o kernel)."
+  cat /var/run/reboot-required.pkgs   # mostra QUEM pediu o reboot
+fi
+# Reinício necessário (provavelmente atualizou o kernel).
+# linux-image-7.0.0-12-generic`,
       },
       {
         lang: "bash",
-        code: `# Reiniciando o sistema pelo terminal:
-sudo reboot
-# saída: o sistema desliga e reinicia em segundos.
-# Para apenas desligar:
-sudo poweroff`,
+        code: `# Reiniciar ou desligar pelo terminal:
+sudo reboot      # reinicia
+sudo poweroff    # desliga
+
+# Ver qual kernel está rodando agora (útil depois de atualizar):
+uname -r
+# 7.0.0-12-generic`,
       },
       {
         lang: "bash",
-        code: `# Limpeza opcional após muitas atualizações:
-sudo apt clean        # apaga .deb baixados (libera disco)
-sudo apt autoclean    # apaga só os obsoletos
-df -h /              # confira o espaço livre depois`,
+        code: `# Faxina de espaço depois de muitas atualizações:
+sudo apt autoremove -y   # tira kernels velhos e libs sem dono
+sudo apt clean           # apaga os .deb baixados que ficaram no cache
+df -h /                  # confira o espaço livre da raiz
+# Filesystem  Size  Used Avail Use% Mounted on
+# /dev/sda2    50G   18G   30G  38% /`,
+      },
+      {
+        lang: "bash",
+        code: `# Um atalho para atualizar tudo de uma vez (coloque no ~/.bashrc):
+alias att='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y'
+# Depois, recarregue o bashrc e use:
+source ~/.bashrc
+att      # atualiza, faz upgrade completo e limpa — tudo numa palavra`,
       },
     ],
     points: [
-      "Faça \`sudo apt update && sudo apt upgrade -y\` pelo menos 1x por semana.",
-      "update busca a lista; upgrade aplica. Nunca pule a ordem.",
-      "full-upgrade é mais agressivo: aceita instalar/remover pacotes para resolver dependências.",
-      "autoremove tira kernels antigos e libs que ninguém mais usa.",
-      "Atualização de kernel exige reboot — confira /var/run/reboot-required.",
-      "Iniciante comum: rodar \`apt upgrade\` sem o \`apt update\` antes e ficar com versão velha.",
-      "Iniciante comum: cancelar atualização no meio com Ctrl+C — isso quebra pacote.",
-      "Em Lubuntu LTS você fica 5 anos recebendo atualizações de segurança gratuitas.",
+      "Faça `sudo apt update && sudo apt upgrade -y` pelo menos uma vez por semana.",
+      "`update` busca a lista; `upgrade` aplica. **Nunca** inverta a ordem.",
+      "`full-upgrade` é mais completo: aceita remover pacotes antigos para resolver dependências — use quando aparecer 'kept back'.",
+      "`autoremove` tira kernels antigos e bibliotecas órfãs, liberando disco.",
+      "Atualização de kernel exige reboot — cheque `/var/run/reboot-required`.",
+      "O texto correndo na tela é normal: é o `apt` mostrando o progresso. Não interrompa.",
+      "Em uma versão **LTS** você recebe 5 anos de atualizações de segurança gratuitas.",
+      "Erro comum: rodar `upgrade` sem o `update` antes e ficar com versão velha ou erro 404.",
     ],
     alerts: [
       {
-        type: "success",
-        content: "Crie um apelido no terminal para atualizar tudo de uma vez. Adicione em ~/.bashrc: \`alias att='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y'\`",
+        type: "info",
+        content: "Trocar de **versão do sistema** (ex.: de 26.04 para 26.10) é outra operação: usa `sudo do-release-upgrade`, não o `upgrade`. O `upgrade` só cuida dos programas dentro da versão atual.",
       },
       {
         type: "warning",
-        content: "Se aparecer aviso sobre repositórios assinados/expirados, NÃO ignore. Pode indicar PPA quebrado. Resolva antes de continuar atualizando.",
+        content: "Se aparecer aviso de repositório **expirado** ou **sem assinatura** durante o `update`, não ignore. Costuma ser um PPA quebrado. Resolva (veremos no capítulo de PPAs) antes de seguir atualizando.",
       },
       {
-        type: "info",
-        content: "Atualizações de versão (de 24.04 para 24.10, por exemplo) usam outro comando: \`do-release-upgrade\`. Não use upgrade para isso.",
+        type: "danger",
+        content: "Não desligue o computador no meio de um `upgrade`, ainda mais se for atualização de kernel. Interromper pode deixar o sistema sem inicializar. Se estiver num notebook, faça sempre na tomada.",
+      },
+      {
+        type: "success",
+        content: "O alias `att` transforma a rotina de manutenção em uma palavra. Depois de criar, atualizar o sistema inteiro vira digitar três letras e apertar Enter.",
       },
     ],
   },
   {
     slug: "instalar-remover",
     section: "pacotes",
-    title: "Instalando e removendo programas",
+    title: "Instalando e removendo programas com segurança",
     difficulty: "iniciante",
-    subtitle: "Adicionar, tirar e fazer faxina de programas com segurança.",
-    intro: `Cada programa instalado é um inquilino na sua casa. Uns ajudam todo dia, outros foram instalados em um teste e ficaram esquecidos comendo espaço. Aprender a instalar e remover com calma é o que diferencia quem mora bem em casa arrumada de quem vive em meio a caixas amontoadas.
+    subtitle: "install, remove, purge e a faxina que mantém o Lubuntu leve por anos.",
+    intro: `Cada programa instalado é um inquilino na sua casa. Uns ajudam todo dia; outros entraram num teste e ficaram esquecidos ocupando espaço. Saber instalar **e** remover com calma é o que separa uma casa arrumada de uma cheia de caixas amontoadas — e é justamente essa disciplina que mantém o Lubuntu leve depois de anos de uso.
 
-A boa notícia: no Linux a instalação é uma linha de comando ou um clique no Discover. Não há "próximo, próximo, aceito o termo". O programa entra e sai limpo, sem deixar lixo no Registro (que aliás nem existe aqui). Por isso o Lubuntu se mantém leve por anos.
+## Sem "próximo, próximo, aceito"
 
-Neste capítulo você vai aprender três operações: instalar (\`install\`), remover mantendo configurações (\`remove\`) e remover apagando até as configurações (\`purge\`). E também a faxina semanal com \`autoremove\`, que tira pacotes que ficaram pendurados sem ninguém usar mais.`,
+No Linux não existe aquele instalador com dez telas e um "aceito os termos" escondendo uma barra de ferramentas indesejada. O programa entra por uma linha (ou um clique) e sai limpo, **sem deixar lixo** num Registro (que aqui nem existe). Por isso o sistema não "engorda" com o tempo como o Windows.
+
+## As três operações que você precisa dominar
+
+- \`install\` — instala o programa.
+- \`remove\` — desinstala, mas **mantém** os arquivos de configuração (bom se pretende reinstalar depois).
+- \`purge\` — desinstala e **apaga também** as configurações (bom quando o programa deu problema e você quer recomeçar do zero).
+
+E, acima de tudo, a faxina:
+
+- \`autoremove\` — tira as dependências que ficaram **penduradas sem dono** depois que você removeu o programa que as trouxe.`,
     codes: [
       {
         lang: "bash",
-        code: `# Instalar UM pacote
+        code: `# Instalar um pacote e ler o resumo (ele avisa o espaço que vai usar):
 sudo apt install gimp -y
-# saída resumida:
 # The following NEW packages will be installed:
-#   gimp gimp-data ...
-# After this operation, 200 MB of additional disk space will be used.`,
+#   gimp gimp-data libgimp2.0 ...
+# After this operation, 240 MB of additional disk space will be used.
+# Setting up gimp (2.10.x) ...`,
       },
       {
         lang: "bash",
-        code: `# Instalar VÁRIOS pacotes de uma vez
-sudo apt install neofetch htop tree curl -y
-# Só listar separado por espaço.
-# Útil para "kit inicial" depois de uma instalação nova.`,
+        code: `# Instalar vários de uma vez (kit de multimídia, por exemplo):
+sudo apt install vlc audacity handbrake -y
+# Separe por espaço. O apt baixa e configura tudo numa tacada.`,
       },
       {
         lang: "bash",
-        code: `# Remover um programa (mantém arquivos de configuração)
+        code: `# Remover MANTENDO as configurações (você pode reinstalar e achar tudo no lugar):
 sudo apt remove gimp -y
-# saída: The following packages will be REMOVED: gimp
-# Útil se você quer reinstalar depois e manter preferências.`,
+# The following packages will be REMOVED:
+#   gimp
+# 0 upgraded, 0 newly installed, 1 to remove.`,
       },
       {
         lang: "bash",
-        code: `# Remover apagando TUDO, inclusive configs
+        code: `# Remover APAGANDO tudo, inclusive configs (recomeço do zero):
 sudo apt purge gimp -y
-# saída: ... gimp* (purge) ...
-# Use quando o programa deu problema e você quer começar do zero.`,
+# The following packages will be REMOVED:
+#   gimp*
+# O asterisco (*) sinaliza que as configurações também serão apagadas.`,
       },
       {
         lang: "bash",
-        code: `# Faxina de pacotes que sobraram sem dono
+        code: `# A faxina: tirar dependências que sobraram sem ninguém usar:
 sudo apt autoremove -y
-# saída: The following packages will be REMOVED:
-#   linux-image-6.5.0-old ...
-# Tira kernels antigos e libs que viraram órfãs.`,
+# The following packages will be REMOVED:
+#   gimp-data libgimp2.0 linux-image-6.9.0-old ...
+# Repare que ele também recolhe kernels antigos.`,
       },
       {
         lang: "bash",
-        code: `# Antes de remover algo importante, descubra do que ele depende
-apt-cache rdepends firefox | head -20
-# saída: lista de pacotes que dependem do firefox.
-# Se a lista for grande, pense duas vezes antes de remover.`,
+        code: `# ANTES de remover algo do sistema, veja quem depende daquilo:
+apt-cache rdepends --installed firefox | head
+# firefox
+# Reverse Depends:
+#   ubuntu-web-launchers
+# Se a lista for grande, pense duas vezes: remover pode derrubar outras coisas.`,
       },
       {
         lang: "bash",
-        code: `# Reinstalar um pacote bagunçado (sem perder configs)
+        code: `# Reinstalar um programa que bagunçou (sem perder seus dados):
 sudo apt install --reinstall firefox -y
-# saída: Reinstalling firefox (122.0) ...
-# Útil quando o programa quebrou após uma atualização.`,
+# Reinstalling firefox (124.0) ...
+# Útil quando o programa quebrou depois de uma atualização.`,
+      },
+      {
+        lang: "bash",
+        code: `# Consertar uma instalação interrompida (aquele Ctrl+C infeliz):
+sudo dpkg --configure -a   # termina o que ficou pela metade
+sudo apt install -f        # -f = fix broken: resolve dependências quebradas`,
       },
     ],
     points: [
-      "install instala; remove tira; purge tira até configurações.",
-      "Pode listar vários pacotes separados por espaço em uma chamada só.",
-      "autoremove é faxina semanal: tira lixo pendurado sem dono.",
-      "--reinstall conserta programa quebrado sem perder seus dados.",
-      "Antes de remover algo do sistema, veja \`rdepends\` para evitar quebrar dependências.",
-      "Iniciante comum: usar \`remove\` quando queria \`purge\` e ficar com configs antigas atrapalhando.",
-      "Iniciante comum: remover pacote do sistema sem entender — pode tirar o ambiente gráfico inteiro.",
-      "Sempre leia o resumo do apt antes de confirmar — ele mostra o que será removido junto.",
+      "`install` instala, `remove` desinstala mantendo configs, `purge` desinstala apagando configs.",
+      "Dá para listar vários pacotes numa chamada só, separados por espaço.",
+      "`autoremove` é a faxina: recolhe dependências órfãs e kernels antigos.",
+      "`--reinstall` conserta um programa quebrado **sem** perder seus dados.",
+      "Antes de remover algo do sistema, cheque `apt-cache rdepends --installed <pacote>`.",
+      "Sempre **leia o resumo** do apt antes de confirmar: ele lista o que será removido junto.",
+      "Instalação interrompida trava futuras — o conserto é `dpkg --configure -a` + `apt install -f`.",
+      "Erro comum: usar `remove` querendo `purge` e depois estranhar configs velhas atrapalhando.",
     ],
     alerts: [
       {
         type: "danger",
-        content: "Cuidado ao remover pacotes com \"lubuntu-\", \"lxqt-\" ou \"xorg\" no nome. Você pode acabar sem interface gráfica e ficar só no terminal.",
+        content: "Muito cuidado ao remover pacotes com **`lubuntu-`**, **`lxqt-`** ou **`xorg`** no nome. Você pode acabar sem interface gráfica e cair num terminal preto no próximo boot. Se o apt avisar que vai remover dezenas de pacotes que você não pediu, cancele com `n` e investigue.",
       },
       {
         type: "tip",
-        content: "Se o apt sugerir remover muitos pacotes que você não esperava, cancele com 'n' e investigue. Geralmente é sinal de que falta uma dependência intermediária.",
+        content: "Nomes de pacote são sempre em **minúsculas, com hífens** e sem acento: `libreoffice-writer`, `firefox-esr`, `vlc-plugin-base`. Se errar o nome, o apt reclama com `Unable to locate package`.",
       },
       {
         type: "info",
-        content: "Pacotes têm nomes em letras minúsculas e hífens (firefox-esr, libreoffice-writer). Não use espaços nem acentos.",
+        content: "Diferença prática entre `remove` e `purge`: depois de um `remove`, um `apt install` de volta encontra suas preferências antigas intactas. Depois de um `purge`, o programa volta como se fosse a primeira vez.",
       },
     ],
   },
   {
     slug: "adicionar-ppa",
     section: "pacotes",
-    title: "PPAs: repositórios extras",
+    title: "PPAs: repositórios extras (e como não se queimar)",
     difficulty: "intermediario",
-    subtitle: "Quando o programa que você quer não está no apt padrão.",
-    intro: `Os repositórios oficiais do Ubuntu têm milhares de programas, mas nem tudo cabe lá. Versões muito novas, drivers específicos ou softwares de nicho às vezes só estão em PPAs (Personal Package Archives) — repositórios extras mantidos por desenvolvedores ou comunidades. É como uma feirinha de produtos especiais ao lado do supermercado oficial.
+    subtitle: "Instalando versões novas ou de nicho que não estão no apt oficial.",
+    intro: `Os repositórios oficiais do Ubuntu têm dezenas de milhares de programas, mas nem tudo cabe lá — e o que cabe às vezes é uma versão mais antiga, congelada quando a versão do sistema saiu. Quando você precisa da versão **mais nova** de um programa, ou de algo de **nicho**, entram os **PPAs**.
 
-Adicionar um PPA é dizer ao apt: "agora também procure pacotes neste outro endereço". A partir daí, o programa do PPA fica visível e atualizável como qualquer outro. Por baixo, isso adiciona uma chave GPG (para conferir assinaturas) e uma linha em /etc/apt/sources.list.d/.
+## O que é um PPA
 
-A precaução é grande: PPA é confiança em quem mantém. Não saia adicionando PPA aleatório da internet. Use só de fontes oficiais (do próprio projeto ou de equipes conhecidas como kisak para Mesa, ou git-core para Git). PPA confiável é o melhor dos dois mundos: software fresco com a comodidade do apt.`,
+**PPA** significa *Personal Package Archive*: um repositório extra, hospedado no **Launchpad** (a plataforma da Canonical), mantido por um desenvolvedor ou por uma comunidade. Adicionar um PPA é dizer ao \`apt\`: "de agora em diante, procure pacotes **também** neste endereço". A partir daí, o programa do PPA fica visível e **atualizável** como qualquer outro — essa é a grande vantagem sobre baixar um \`.deb\` solto.
+
+## O que acontece por baixo
+
+Ao adicionar um PPA, o sistema faz duas coisas:
+
+- baixa e instala uma **chave GPG**, para conferir a assinatura dos pacotes daquele repositório;
+- cria um arquivo em \`/etc/apt/sources.list.d/\` com o endereço do repositório.
+
+## A regra de ouro
+
+PPA é **confiança em quem mantém**. Não passa pela revisão da equipe do Ubuntu. Um PPA malicioso pode rodar código como root no seu sistema durante a instalação. Portanto: use só PPAs de **fontes oficiais** (o próprio projeto) ou de mantenedores reconhecidos — por exemplo \`git-core\` (Git), \`kisak\` (drivers Mesa) ou \`deadsnakes\` (versões do Python). PPA aleatório de tutorial antigo é pedir problema.`,
     codes: [
       {
         lang: "bash",
-        code: `# Antes de adicionar PPA, instale a ferramenta que ajuda
+        code: `# Ferramenta que facilita adicionar/remover PPA (às vezes já vem instalada):
 sudo apt update
 sudo apt install software-properties-common -y
-# saída: ... software-properties-common is already the newest ...`,
+# software-properties-common is already the newest version (0.99.x).`,
       },
       {
         lang: "bash",
-        code: `# Adicionando um PPA confiável (exemplo: Git oficial)
+        code: `# Adicionar um PPA confiável (exemplo: Git oficial, sempre atualizado):
 sudo add-apt-repository ppa:git-core/ppa -y
-# saída: Repository: 'deb https://ppa.launchpadcontent.net/git-core/ppa/ubuntu/ noble main'
-# Adding ppa: ... Done
-# Atualiza a lista automaticamente no fim.`,
+# Repository: 'deb https://ppa.launchpadcontent.net/git-core/ppa/ubuntu resolute main'
+# Adding key to /etc/apt/... done.
+# (o comando moderno já roda 'apt update' sozinho no fim)`,
       },
       {
         lang: "bash",
-        code: `# Agora o git aparece com versão mais nova
+        code: `# Agora o Git aparece com a versão mais nova do PPA:
 sudo apt install git -y
 git --version
-# saída: git version 2.45.0 (vs 2.43 do repo oficial)`,
+# git version 2.45.2   (vs 2.43 que vinha do repo oficial)`,
       },
       {
         lang: "bash",
-        code: `# Listar todos os PPAs adicionados
+        code: `# Ver todos os PPAs/repositórios extras que você adicionou:
 ls /etc/apt/sources.list.d/
-# saída: git-core-ubuntu-ppa-noble.sources
-#        ...`,
+# git-core-ubuntu-ppa-resolute.sources
+# google-chrome.sources
+grep -r "^URIs\\|^deb" /etc/apt/sources.list.d/ | head`,
       },
       {
         lang: "bash",
-        code: `# Removendo um PPA quando não quiser mais
+        code: `# Remover um PPA que você não quer mais:
 sudo add-apt-repository --remove ppa:git-core/ppa -y
-# Depois reinstale a versão original do repo oficial:
+# Depois, se quiser, volte para a versão do repo oficial:
 sudo apt update
 sudo apt install --reinstall git -y`,
       },
       {
         lang: "bash",
-        code: `# PPA quebrado/expirado costuma dar erro 404 no apt update.
-# Localize o arquivo problemático:
-grep -r "ppa.launchpad" /etc/apt/sources.list.d/
-# Edite para comentar (#) a linha quebrada:
-sudo nano /etc/apt/sources.list.d/nome-do-arquivo.sources`,
+        code: `# PPA quebrado costuma dar erro no 'apt update' (404 ou sem Release):
+sudo apt update
+# E: The repository '... resolute Release' does not have a Release file.
+# N: Updating from such a repository can't be done securely ...`,
+      },
+      {
+        lang: "bash",
+        code: `# Localize e desative o repositório problemático:
+grep -rl "launchpad" /etc/apt/sources.list.d/
+# /etc/apt/sources.list.d/fulano-ubuntu-app-resolute.sources
+# Abra e comente (coloque # nas linhas) ou apague o arquivo:
+sudo nano /etc/apt/sources.list.d/fulano-ubuntu-app-resolute.sources
+sudo apt update    # confirme que o erro sumiu`,
       },
     ],
     points: [
-      "PPA = repositório extra mantido por terceiros, hospedado no Launchpad.",
-      "Use \`add-apt-repository ppa:usuario/nome\` para adicionar.",
-      "Após adicionar, sempre rode \`sudo apt update\` (o comando moderno já faz).",
-      "Para remover use \`add-apt-repository --remove ppa:...\`.",
-      "PPAs confiáveis incluem: git-core, kisak (Mesa), libreoffice, deadsnakes (Python).",
-      "Iniciante comum: adicionar PPA aleatório que viu num tutorial antigo e abandonado.",
-      "Iniciante comum: esquecer de remover PPA antes de fazer upgrade de versão do Ubuntu.",
-      "Arquivos de configuração ficam em /etc/apt/sources.list.d/ — apague de lá em último caso.",
+      "PPA = repositório extra de terceiros, hospedado no Launchpad da Canonical.",
+      "Adicione com `sudo add-apt-repository ppa:usuario/nome` (o comando moderno já roda `apt update` no fim).",
+      "A vantagem sobre um `.deb` solto: o programa do PPA passa a **receber atualizações** pelo apt.",
+      "Remova com `sudo add-apt-repository --remove ppa:usuario/nome`.",
+      "PPAs confiáveis incluem `git-core` (Git), `kisak` (Mesa), `deadsnakes` (Python), `libreoffice`.",
+      "Os arquivos de configuração vivem em `/etc/apt/sources.list.d/` — é lá que se desativa um PPA quebrado.",
+      "PPA quebrado gera erro no `apt update` e **trava** as atualizações — resolva na hora.",
+      "Erro comum: seguir tutorial antigo e adicionar PPA abandonado, sem pacote para a sua versão do Ubuntu.",
     ],
     alerts: [
       {
         type: "danger",
-        content: "PPA não passa por revisão da equipe Ubuntu. Se você instalar um PPA malicioso, ele pode rodar código com root no seu sistema. Adicione só de fontes oficiais.",
+        content: "PPA **não** passa por revisão da Canonical. Ao adicionar um, você confia no mantenedor com acesso de root ao instalar. Adicione apenas de fontes oficiais e reconhecidas — nunca de um link aleatório de fórum.",
       },
       {
         type: "warning",
-        content: "Antes de fazer \`do-release-upgrade\` (mudar versão do Ubuntu), o sistema desativa todos os PPAs. Reative manualmente um a um depois, conferindo se já têm pacotes para a nova versão.",
+        content: "Antes de trocar de versão do sistema com `do-release-upgrade`, o Ubuntu **desativa todos os PPAs**. Depois, reative um a um, conferindo se cada um já tem pacotes para a versão nova. Reativar tudo às cegas é receita para conflito.",
       },
       {
         type: "tip",
-        content: "Para muitos programas modernos (VS Code, Brave), prefira o pacote Snap ou Flatpak — mais seguros que PPA por rodarem em sandbox.",
+        content: "Para muitos programas modernos (VS Code, Brave, Spotify), prefira **Snap** ou **Flatpak** a um PPA: rodam em sandbox e não dependem de um mantenedor manter o PPA vivo. Veremos os dois nos próximos capítulos.",
       },
     ],
   },
@@ -433,285 +591,345 @@ sudo nano /etc/apt/sources.list.d/nome-do-arquivo.sources`,
     section: "pacotes",
     title: "Snap: pacotes universais com sandbox",
     difficulty: "intermediario",
-    subtitle: "O formato \"tudo junto\" criado pela Canonical.",
-    intro: `O Snap é um formato de pacote criado pela Canonical (a empresa por trás do Ubuntu). A ideia é levar o programa, suas bibliotecas e dependências tudo dentro de um arquivo só. Você instala o Snap e ele roda igual em qualquer distribuição Linux, sem depender de versão específica do sistema. Pense em uma marmita selada: tudo que o programa precisa vai junto.
+    subtitle: "O formato \"tudo junto\" da Canonical — vantagens e o preço que se paga.",
+    intro: `Depois do \`apt\` e dos PPAs, você vai esbarrar num terceiro jeito de instalar programas: os **Snaps**. É um formato mais novo, criado pela **Canonical** (a empresa do Ubuntu), pensado para resolver uma dor antiga do Linux — a de o mesmo programa precisar de empacotamento diferente para cada distribuição.
 
-Outra característica importante é o sandbox: o Snap roda meio "preso", com permissões limitadas, então um programa Snap não consegue mexer livremente em arquivos do sistema. Isso aumenta a segurança, mas também causa inconvenientes (como Snap não enxergando seu \`~/Downloads\` automaticamente em alguns casos).
+## A marmita selada
 
-No Lubuntu, o snapd já vem instalado por padrão a partir de versões recentes. Você usa o comando \`snap\` no terminal ou abre o Discover, que também lista pacotes Snap. A grande vantagem é receber a versão mais nova de programas como Chromium, Spotify, VS Code direto do desenvolvedor, sem depender da equipe Ubuntu empacotar.`,
+Um Snap leva **tudo dentro**: o programa, suas bibliotecas e dependências, tudo num arquivo só. Por isso ele roda igual no Ubuntu, no Fedora ou no Arch, sem depender da versão de biblioteca que o sistema tem. É como uma marmita selada — pesa mais, mas você sabe que vai funcionar em qualquer lugar.
+
+## O sandbox: segurança que às vezes incomoda
+
+O outro pilar do Snap é o **sandbox**: o programa roda "preso", com permissões limitadas, sem poder mexer livremente no sistema. Isso aumenta a segurança — um Snap comprometido tem alcance restrito. O preço é que, às vezes, o programa **não enxerga** uma pasta fora do lugar comum (como um \`~/Downloads\` movido), e a primeira abertura é mais lenta porque ele monta o sandbox.
+
+## No Lubuntu
+
+O \`snapd\` (o motor dos Snaps) já vem instalado nas versões recentes. Você usa pelo comando \`snap\` ou pelo Discover, que também lista Snaps. A grande vantagem prática: receber a versão **mais nova**, direto do desenvolvedor, de programas como Spotify, Chromium, VS Code e Discord — sem esperar a equipe do Ubuntu reempacotar.`,
     codes: [
       {
         lang: "bash",
-        code: `# Verifique se snapd está instalado
+        code: `# Confirme se o snapd está presente:
 snap version
-# saída: snap    2.63
+# snap    2.63
 # snapd   2.63
 # series  16
-# Se não tiver, instale:
+# ubuntu  26.04
+
+# Se não estiver, instale:
 sudo apt install snapd -y`,
       },
       {
         lang: "bash",
-        code: `# Procurar um pacote no Snap Store
+        code: `# Procurar um programa na Snap Store:
 snap find spotify
-# saída: Name     Version   Publisher   Notes  Summary
-# spotify  1.x       spotify✓    -      Music for everyone`,
+# Name     Version  Publisher   Notes  Summary
+# spotify  1.2.x    spotify✓    -      Music streaming for everyone
+# O ✓ verde ao lado do publicador = conta VERIFICADA. Prefira esses.`,
       },
       {
         lang: "bash",
-        code: `# Instalar um Snap
+        code: `# Instalar um Snap:
 sudo snap install spotify
-# saída: spotify 1.x from Spotify✓ installed
-# O ✓ verde significa publicador verificado.`,
+# spotify 1.2.x from Spotify✓ installed
+# O ícone aparece no menu LXQt logo em seguida.`,
       },
       {
         lang: "bash",
-        code: `# Listar todos os Snaps instalados
+        code: `# Alguns Snaps de desenvolvedor pedem a flag --classic
+# (eles precisam de acesso amplo ao sistema, sem sandbox estrito):
+sudo snap install code --classic
+# code (edge) ... installed
+# Se esquecer o --classic quando é exigido, o snap avisa e recusa.`,
+      },
+      {
+        lang: "bash",
+        code: `# Listar o que você tem instalado via Snap:
 snap list
-# saída: Name      Version  Rev   Tracking  Publisher
-# core22    ...      ...   latest    canonical✓
-# spotify   1.x      ...   latest    spotify✓`,
+# Name     Version  Rev    Tracking       Publisher   Notes
+# core22   ...      ...    latest/stable  canonical✓  base
+# spotify  1.2.x    ...    latest/stable  spotify✓    -
+# code     1.90     ...    latest/stable  vscode✓     classic`,
       },
       {
         lang: "bash",
-        code: `# Atualizações de Snap são automáticas, mas dá pra forçar
+        code: `# Atualizações de Snap são AUTOMÁTICAS, mas dá para forçar:
 sudo snap refresh
-# saída: All snaps up to date.
-# Para ver quando vai rodar a próxima checagem:
-snap refresh --time`,
+# All snaps up to date.
+# Ver quando será a próxima checagem automática:
+snap refresh --time
+# last: today at 09:12 -03
+# next: today at 15:12 -03`,
       },
       {
         lang: "bash",
-        code: `# Remover um Snap
+        code: `# Um Snap não abre um arquivo de uma pasta "estranha"? É o sandbox.
+# Veja e ajuste as permissões (interfaces) do Snap:
+snap connections spotify
+# Interface        Plug                 Slot
+# home             spotify:home         :home
+# removable-media  spotify:removable    -    (desconectado)
+sudo snap connect spotify:removable-media   # libera acesso a pendrives`,
+      },
+      {
+        lang: "bash",
+        code: `# Remover um Snap (apaga inclusive os dados do programa):
 sudo snap remove spotify
-# saída: spotify removed
-# Apaga inclusive os dados do programa.`,
-      },
-      {
-        lang: "bash",
-        code: `# Snaps usam mais espaço (carregam dependências dentro).
-# Veja quanto cada um ocupa:
-du -sh /var/lib/snapd/snaps/*.snap | sort -h
-# saída: 50M ... core22.snap
-#        180M ... spotify_xxx.snap`,
+# spotify removed
+
+# Snaps ocupam mais disco (carregam tudo dentro). Veja o tamanho:
+du -sh /var/lib/snapd/snaps/*.snap | sort -h | tail
+# 68M   .../core22_xxxx.snap
+# 210M  .../spotify_xxxx.snap`,
       },
     ],
     points: [
-      "Snap = pacote universal com tudo dentro, criado pela Canonical.",
-      "Roda em sandbox (segurança extra, às vezes inconveniente).",
-      "Comandos principais: \`snap find\`, \`snap install\`, \`snap list\`, \`snap remove\`.",
-      "Atualizações são automáticas — você não precisa fazer nada.",
-      "Publicador verificado mostra um ✓ verde — prefira esses.",
-      "Iniciante comum: estranhar que Snap demora a abrir na primeira vez (descompacta o sandbox).",
-      "Iniciante comum: reclamar que Snap não vê arquivos em pastas estranhas — é segurança intencional.",
-      "Snaps ocupam mais disco que pacotes apt — são autocontidos.",
+      "Snap = pacote universal, com todas as dependências dentro, criado pela Canonical.",
+      "Roda em **sandbox**: mais seguro, mas às vezes não enxerga pastas fora do padrão.",
+      "Comandos centrais: `snap find`, `snap install`, `snap list`, `snap refresh`, `snap remove`.",
+      "Atualizações são **automáticas** — você não precisa fazer nada.",
+      "Publicador com **✓ verde** é conta verificada; prefira sempre esses.",
+      "Alguns Snaps de desenvolvedor (VS Code) exigem `--classic` para ter acesso amplo.",
+      "Problema de acesso a arquivo? Ajuste as permissões com `snap connections` / `snap connect`.",
+      "Snaps ocupam mais disco e abrem mais devagar na primeira vez — é o preço do formato autocontido.",
     ],
     alerts: [
       {
         type: "info",
-        content: "Algumas distribuições (Linux Mint, por exemplo) não gostam de Snap. No Lubuntu/Ubuntu o suporte é nativo e oficial.",
+        content: "Algumas distribuições (Linux Mint, por exemplo) desencorajam Snap por padrão. No **Ubuntu e no Lubuntu** o suporte é nativo e oficial — pode usar sem receio.",
       },
       {
         type: "warning",
-        content: "Snaps costumam abrir mais devagar na primeira execução por causa do sandbox. Não é seu PC — é o formato. Da segunda vez fica rápido.",
+        content: "A **primeira** abertura de um Snap costuma ser lenta: ele monta o sandbox e descompacta. Não é o seu PC fraco — da segunda vez em diante fica rápido.",
       },
       {
         type: "tip",
-        content: "Programas oficiais que ficam ótimos como Snap: spotify, chromium, vlc, code (VS Code), discord, slack. Procure pelo ✓ do publicador verificado.",
+        content: "Programas que ficam ótimos como Snap: **spotify, chromium, code (VS Code), discord, slack, telegram-desktop**. Sempre procure o ✓ do publicador verificado antes de instalar.",
+      },
+      {
+        type: "success",
+        content: "Não sabe se um programa está como `.deb`, Snap ou Flatpak? Instale o que o **próprio site oficial** recomendar. Quando houver empate, prefira Snap/Flatpak pelo sandbox.",
       },
     ],
   },
   {
     slug: "flatpak-pacotes",
     section: "pacotes",
-    title: "Flatpak: o concorrente do Snap",
+    title: "Flatpak: o concorrente aberto do Snap",
     difficulty: "intermediario",
-    subtitle: "Outro formato universal, com sandbox e Flathub gigantesco.",
-    intro: `Se o Snap é o formato universal da Canonical, o Flatpak é o formato universal da comunidade aberta (apoiado pela Red Hat, GNOME e várias distribuições). Faz a mesma coisa: empacota o programa com suas dependências, roda em sandbox, instala em qualquer Linux. A diferença mora no detalhe: Flatpak usa "runtimes" compartilhados (várias apps Flatpak compartilham as mesmas bibliotecas grandes), o que economiza disco em muitos casos.
+    subtitle: "Outro formato universal, com o Flathub gigantesco por trás.",
+    intro: `Se o Snap é o formato universal da Canonical, o **Flatpak** é o formato universal da **comunidade aberta** — apoiado por Red Hat, GNOME, KDE e boa parte do ecossistema Linux. O objetivo é o mesmo: empacotar o programa com suas dependências, rodar em sandbox e instalar em qualquer distribuição. A rivalidade entre os dois é real, mas para você, usuário, é só **variedade**: muita gente roda os dois na mesma máquina.
 
-A loja oficial do Flatpak é o Flathub (flathub.org), com milhares de programas — muitos com versões mais novas que no apt. É lá que vivem as últimas builds de programas como Inkscape, OBS Studio, Bitwarden e ferramentas para desenvolvedores.
+## A diferença que importa: runtimes compartilhados
 
-No Lubuntu, o Flatpak não vem instalado por padrão (a Canonical prefere Snap). Mas é trivial adicionar: instala o pacote, adiciona o Flathub como fonte e pronto. Muita gente roda Snap E Flatpak na mesma máquina, escolhendo cada um conforme o programa. Não é guerra: é variedade.`,
+O Snap carrega tudo dentro de cada pacote. O Flatpak usa **runtimes compartilhados**: várias aplicações Flatpak apoiam-se na mesma base grande de bibliotecas (por exemplo, o runtime do GNOME ou do KDE), que é baixada **uma vez** e reaproveitada. Na prática, quando você instala muitos programas Flatpak, costuma **economizar disco** em relação a instalar tudo como Snap.
+
+## O Flathub
+
+A loja oficial do Flatpak é o **Flathub** (flathub.org): milhares de programas, muitos com versões mais novas que as do \`apt\`. É lá que vivem as builds recentes de **OBS Studio, Inkscape, Krita, Bitwarden, Blender** e afins.
+
+## No Lubuntu
+
+Diferente do Snap, o Flatpak **não** vem instalado por padrão (a Canonical, naturalmente, prefere o Snap). Mas adicionar é trivial: instala o pacote, cadastra o Flathub como fonte, e pronto. Depois da primeira instalação, faça **logout/login** uma vez para os ícones aparecerem no menu LXQt.`,
     codes: [
       {
         lang: "bash",
-        code: `# Instalar o Flatpak no Lubuntu
+        code: `# 1) Instalar o Flatpak no Lubuntu:
 sudo apt update
 sudo apt install flatpak -y
-# saída: ... Setting up flatpak ...
 flatpak --version
-# saída: Flatpak 1.14.x`,
+# Flatpak 1.14.x`,
       },
       {
         lang: "bash",
-        code: `# Adicionar o Flathub (a loja principal)
+        code: `# 2) Adicionar o Flathub (a loja principal). Só precisa fazer UMA vez:
 flatpak remote-add --if-not-exists flathub \\
   https://flathub.org/repo/flathub.flatpakrepo
-# saída: nada se deu certo.
-# Confira:
+# (sem saída = deu certo)
 flatpak remotes
-# saída: Name    Options
-# flathub user`,
+# Name     Options
+# flathub  system`,
       },
       {
         lang: "bash",
-        code: `# Procurar e instalar um programa
-flatpak search bitwarden
-# saída: Name        Application ID
-# Bitwarden   com.bitwarden.desktop  ...
-
-flatpak install flathub com.bitwarden.desktop -y
-# saída: Installing... Installation complete.`,
+        code: `# 3) Procurar um programa:
+flatpak search obs
+# Name        Description              Application ID          Remotes
+# OBS Studio  Live streaming/recording com.obsproject.Studio   flathub`,
       },
       {
         lang: "bash",
-        code: `# Rodar o programa Flatpak instalado
-flatpak run com.bitwarden.desktop
-# Ou simplesmente clique no ícone no menu LXQt — ele aparece lá também.`,
+        code: `# 4) Instalar (repare que se usa o Application ID, no formato com.autor.Programa):
+flatpak install flathub com.obsproject.Studio -y
+# Installing... Downloading runtime org.kde.Platform ...
+# Installation complete.
+# (na primeira vez ele baixa o runtime grande; nas próximas, reaproveita)`,
       },
       {
         lang: "bash",
-        code: `# Listar Flatpaks instalados
-flatpak list
-# saída: Name           Application ID         Version
-# Bitwarden      com.bitwarden.desktop  ...
-# Atualizar todos:
+        code: `# 5) Rodar:
+flatpak run com.obsproject.Studio
+# Ou clique no ícone no menu LXQt (aparece após o primeiro logout/login).`,
+      },
+      {
+        lang: "bash",
+        code: `# 6) Listar e atualizar tudo:
+flatpak list --app
+# Name        Application ID          Version
+# OBS Studio  com.obsproject.Studio   30.x
 flatpak update -y`,
       },
       {
         lang: "bash",
-        code: `# Remover um Flatpak
-flatpak uninstall com.bitwarden.desktop -y
-# Limpar runtimes não usados (libera disco):
-flatpak uninstall --unused -y`,
+        code: `# 7) Remover e depois liberar os runtimes que ninguém mais usa:
+flatpak uninstall com.obsproject.Studio -y
+flatpak uninstall --unused -y   # faxina: apaga runtimes órfãos, libera bastante disco`,
       },
       {
         lang: "bash",
-        code: `# Reinicie a sessão (logout/login) depois de instalar
-# o Flatpak pela primeira vez, para que os ícones
-# apareçam no menu LXQt.
-loginctl terminate-user $USER
-# Ou simplesmente:
-# Menu → Sair → Logout`,
+        code: `# 8) Programa Flatpak não consegue abrir um arquivo? É o sandbox.
+# Instale o Flatseal (gerenciador gráfico de permissões):
+flatpak install flathub com.github.tchx84.Flatseal -y
+# ou ajuste por linha de comando, ex.: dar acesso à pasta inteira do usuário:
+flatpak override --user --filesystem=home com.obsproject.Studio`,
       },
     ],
     points: [
-      "Flatpak = formato universal de pacote, alternativa ao Snap.",
-      "Usa runtimes compartilhados — economiza disco quando você tem várias apps.",
-      "Loja principal: flathub.org — gigantesca, com versões fresquinhas.",
-      "Não vem por padrão no Lubuntu, mas instala fácil com \`apt install flatpak\`.",
-      "Comandos centrais: \`flatpak install\`, \`flatpak update\`, \`flatpak uninstall\`.",
-      "Iniciante comum: instalar o Flatpak e não adicionar o Flathub — fica sem onde procurar pacotes.",
-      "Iniciante comum: não fazer logout depois de instalar e estranhar que o ícone não aparece.",
-      "Snap e Flatpak convivem bem: use o que for melhor para cada programa.",
+      "Flatpak = formato universal aberto, alternativa ao Snap (apoiado por Red Hat, GNOME, KDE).",
+      "Usa **runtimes compartilhados** — costuma economizar disco quando você tem várias apps.",
+      "Loja principal: **Flathub** (flathub.org), enorme e com versões fresquíssimas.",
+      "Não vem por padrão no Lubuntu; instale com `sudo apt install flatpak` e cadastre o Flathub uma vez.",
+      "Instala-se pelo **Application ID** (`com.autor.Programa`), não pelo nome curto.",
+      "Comandos centrais: `flatpak install`, `flatpak update`, `flatpak uninstall`, `flatpak uninstall --unused`.",
+      "Faça **logout/login** após a primeira instalação para os ícones surgirem no menu.",
+      "Problema de permissão? Use o **Flatseal** (gráfico) ou `flatpak override` (terminal).",
     ],
     alerts: [
       {
         type: "tip",
-        content: "Para integrar o Flathub ao Discover (loja gráfica), instale também \`plasma-discover-backend-flatpak\`. Aí você procura tudo em um lugar só.",
+        content: "Para pesquisar e instalar Flatpaks **dentro do Discover** (a loja gráfica), instale `plasma-discover-backend-flatpak`. Assim você acha apt, Snap e Flatpak num lugar só.",
       },
       {
         type: "info",
-        content: "Programas que ficam ótimos como Flatpak: OBS Studio, Inkscape, Krita, Bitwarden, GIMP versão nova, Telegram Desktop.",
+        content: "Programas que costumam ficar melhores como Flatpak: **OBS Studio, Inkscape, Krita, Blender, Bitwarden, GIMP (versão nova), Telegram**. Muitos desenvolvedores tratam o Flathub como canal oficial.",
       },
       {
         type: "warning",
-        content: "Flatpak também roda em sandbox. Se um programa não consegue abrir um arquivo, talvez falte permissão. Use \`flatpak override\` ou o aplicativo Flatseal para ajustar.",
+        content: "Esquecer de cadastrar o Flathub é o erro nº 1: você instala o Flatpak, roda `flatpak search` e não acha nada. Sem uma **remote** cadastrada, não há de onde buscar pacotes.",
       },
     ],
   },
   {
     slug: "instalar-deb",
     section: "pacotes",
-    title: "Instalando pacotes .deb manualmente",
+    title: "Instalando pacotes .deb baixados do site",
     difficulty: "intermediario",
-    subtitle: "Quando o programa só vem como arquivo baixado do site.",
-    intro: `Alguns programas (Google Chrome, Microsoft Teams, certos drivers de impressora, AnyDesk) não estão no apt nem em Snap/Flatpak. O fornecedor oferece um arquivo \`.deb\` para download direto no site. O \`.deb\` é o formato de pacote nativo do Debian/Ubuntu — o mesmo que o apt baixa por dentro, só que aqui você baixa manualmente.
+    subtitle: "Quando o programa só existe como arquivo para download — e como fazer isso com segurança.",
+    intro: `Alguns programas — **Google Chrome, Microsoft Teams, AnyDesk**, certos drivers de impressora — não estão no \`apt\`, nem em Snap, nem em Flatpak. O fornecedor oferece um arquivo \`.deb\` para baixar direto do site oficial. Este capítulo fecha a trilha ensinando a lidar com esses casos **sem cair em cilada**.
 
-Pense num \`.deb\` como um instalador \`.exe\` do Windows, mas para Linux. Tem dentro: os arquivos do programa, scripts de instalação, lista de dependências e metadados. Você abre com clique duplo (instala graficamente) ou pelo terminal.
+## O que é um .deb
 
-A regra de ouro é: \`.deb\` precisa vir de fonte confiável. Site oficial do programa, sempre. Nada de baixar de fórum ou link suspeito. E mesmo de fonte oficial, é bom conferir a assinatura digital quando possível. Esse capítulo te ensina a baixar, instalar, conferir dependências e remover pacotes \`.deb\` com tranquilidade.`,
+O \`.deb\` é o **formato de pacote nativo** do Debian e do Ubuntu — o mesmo tipo de arquivo que o \`apt\` baixa por dentro, só que aqui você pega manualmente. Dentro dele estão: os arquivos do programa, a lista de dependências, metadados e scripts que rodam na instalação. É o parente mais próximo, no Linux, do \`.exe\`/\`.msi\` do Windows.
+
+## A forma certa de instalar
+
+Existe a forma antiga (\`dpkg -i\`) e a forma recomendada (\`apt install ./arquivo.deb\`). A diferença é decisiva:
+
+- \`dpkg -i\` instala, mas **não resolve dependências** — se faltar algo, ele para com erro.
+- \`sudo apt install ./arquivo.deb\` instala **e resolve as dependências** automaticamente. Repare no \`./\` na frente: é ele que diz ao apt "isto é um arquivo local, não o nome de um pacote no repositório".
+
+## A regra de ouro (de novo)
+
+\`.deb\` roda scripts como root durante a instalação. Um \`.deb\` malicioso compromete o sistema inteiro. Por isso: baixe **apenas do site oficial** do programa. Nada de "baixaki", fórum ou link encurtado. E, quando o site publicar o hash **SHA-256**, confira — leva cinco segundos e elimina o risco de um download adulterado.`,
     codes: [
       {
         lang: "bash",
-        code: `# Exemplo: baixando o Google Chrome (oficial)
+        code: `# Exemplo real: baixando o Google Chrome do site oficial:
 cd ~/Downloads
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-# saída: ... google-chrome-stable_current_amd64.deb saved [120MB/120MB]
-ls *.deb
-# saída: google-chrome-stable_current_amd64.deb`,
+# ... 'google-chrome-stable_current_amd64.deb' saved [118MB/118MB]
+ls -lh *.deb
+# -rw-r--r-- 1 voce voce 118M ... google-chrome-stable_current_amd64.deb`,
       },
       {
         lang: "bash",
-        code: `# A forma RECOMENDADA de instalar .deb é com apt:
+        code: `# A forma RECOMENDADA (resolve dependências sozinha). Note o ./ na frente:
 sudo apt install ./google-chrome-stable_current_amd64.deb -y
-# A vantagem: o apt resolve dependências automaticamente.
-# Note o ./ na frente — diz ao apt que é arquivo local, não nome de pacote.`,
+# Note, selecting 'google-chrome-stable' instead of './google-chrome...'
+# The following NEW packages will be installed:
+#   google-chrome-stable
+# Setting up google-chrome-stable ...`,
       },
       {
         lang: "bash",
-        code: `# Forma antiga, com dpkg (não resolve dependências sozinha)
+        code: `# A forma antiga com dpkg NÃO resolve dependências:
 sudo dpkg -i google-chrome-stable_current_amd64.deb
-# Se faltar dependência, dará erro:
-# dpkg: dependency problems prevent configuration ...
-# Solução: rode em seguida
-sudo apt install -f -y     # -f = fix broken`,
+# dpkg: dependency problems prevent configuration of google-chrome-stable:
+#  google-chrome-stable depends on fonts-liberation; however: ...
+# Conserto (rode logo em seguida):
+sudo apt install -f -y     # -f = fix broken: baixa o que faltou`,
       },
       {
         lang: "bash",
-        code: `# Inspecionar um .deb antes de instalar
+        code: `# INSPECIONAR o .deb antes de instalar (ver versão e dependências):
 dpkg -I google-chrome-stable_current_amd64.deb
-# saída:
 # Package: google-chrome-stable
-# Version: 122.x
+# Version: 124.0.x
 # Architecture: amd64
-# Depends: ca-certificates, fonts-liberation, ...`,
+# Depends: ca-certificates, fonts-liberation, libnss3 (>= 2:3.22) ...`,
       },
       {
         lang: "bash",
-        code: `# Listar arquivos que SERÃO instalados (auditar antes)
+        code: `# Auditar QUAIS arquivos ele vai colocar e ONDE (bom para desconfiar):
 dpkg -c google-chrome-stable_current_amd64.deb | head
-# saída: drwxr-xr-x ... ./opt/google/chrome/
-# -rwxr-xr-x ... ./opt/google/chrome/chrome
-# Útil para ver onde o programa vai cair no sistema.`,
+# drwxr-xr-x  ./opt/google/chrome/
+# -rwxr-xr-x  ./opt/google/chrome/chrome
+# -rwxr-xr-x  ./usr/bin/google-chrome-stable`,
       },
       {
         lang: "bash",
-        code: `# Remover o pacote depois (mesmo nome usado pelo apt)
+        code: `# Conferir o SHA-256 quando o site publica o hash oficial:
+sha256sum google-chrome-stable_current_amd64.deb
+# a1b2c3d4...  google-chrome-stable_current_amd64.deb
+# Compare CARACTERE A CARACTERE com o hash do site. Diferente = NÃO instale.`,
+      },
+      {
+        lang: "bash",
+        code: `# Remover depois usa o NOME DO PACOTE, não o do arquivo:
 sudo apt remove google-chrome-stable -y
-# Para remover inclusive configurações:
+# Para apagar inclusive configurações:
 sudo apt purge google-chrome-stable -y`,
       },
       {
         lang: "bash",
-        code: `# Conferir um .deb com sha256 (quando o site fornece)
-sha256sum google-chrome-stable_current_amd64.deb
-# saída: a1b2c3...  google-chrome-stable_current_amd64.deb
-# Compare com o hash publicado no site oficial. Se diferente, NÃO instale.`,
+        code: `# Muitos .deb de empresa adicionam o próprio repositório para se auto-atualizar.
+# Confira (é normal e desejável — mantém o programa em dia pelo apt):
+ls /etc/apt/sources.list.d/ | grep -i chrome
+# google-chrome.sources
+cat /etc/apt/sources.list.d/google-chrome.sources`,
       },
     ],
     points: [
-      ".deb é o formato nativo de pacote no Debian/Ubuntu/Lubuntu.",
-      "Sempre prefira \`sudo apt install ./arquivo.deb\` — resolve dependências.",
-      "\`dpkg -i\` instala mas não resolve dependências sozinho — use \`apt install -f\` depois.",
-      "Inspecione antes com \`dpkg -I\` (informações) e \`dpkg -c\` (lista de arquivos).",
-      "Confira sha256 quando o site oficial fornecer hash de verificação.",
-      "Iniciante comum: baixar .deb de site não oficial — risco real de malware.",
-      "Iniciante comum: usar \`dpkg -i\` puro, ver erro de dependência e desistir — basta rodar \`apt install -f\`.",
-      "Para remover, use o nome do pacote (não do arquivo): \`sudo apt remove google-chrome-stable\`.",
+      "`.deb` é o formato nativo de pacote no Debian/Ubuntu/Lubuntu.",
+      "Prefira sempre `sudo apt install ./arquivo.deb` — o `./` marca arquivo local e as dependências são resolvidas.",
+      "`dpkg -i` instala mas não resolve dependências; se der erro, rode `sudo apt install -f`.",
+      "Inspecione antes: `dpkg -I` mostra informações; `dpkg -c` lista os arquivos que serão instalados.",
+      "Confira o **SHA-256** quando o site oficial fornecer — compara o download com o original.",
+      "Para remover, use o **nome do pacote** (`google-chrome-stable`), não o nome do arquivo.",
+      "Vários `.deb` de empresa adicionam um repositório próprio para atualizar sozinhos pelo apt — é normal.",
+      "Erro comum: usar `dpkg -i`, ver o erro de dependência e desistir — bastava rodar `apt install -f`.",
     ],
     alerts: [
       {
         type: "danger",
-        content: "Nunca instale .deb de origem desconhecida. Um .deb malicioso roda scripts com root durante a instalação e pode comprometer o sistema todo.",
+        content: "**Nunca** instale um `.deb` de origem desconhecida. Durante a instalação ele executa scripts como **root** — um pacote malicioso compromete o sistema inteiro. Baixe só do site oficial do fabricante.",
       },
       {
         type: "tip",
-        content: "Quando o programa oferece tanto .deb quanto Snap/Flatpak, prefira Snap/Flatpak por causa do sandbox. Use .deb só se o fornecedor recomendar.",
+        content: "Quando o mesmo programa oferece `.deb` **e** Snap/Flatpak, prefira Snap/Flatpak pelo sandbox. Use o `.deb` apenas quando o próprio fornecedor recomendar (caso do Chrome, que integra melhor como `.deb`).",
       },
       {
         type: "info",
-        content: "Programas instalados por .deb costumam adicionar seu próprio repositório em /etc/apt/sources.list.d/ para enviar atualizações automáticas pelo apt. É normal e desejável.",
+        content: "Terminou a trilha de Pacotes! Você já sabe os **cinco** caminhos para instalar software no Lubuntu: loja Discover, `apt`, PPA, Snap, Flatpak e `.deb`. Na dúvida sobre qual usar, siga esta ordem de preferência: repositório oficial (`apt`) → Snap/Flatpak → `.deb`/PPA de fonte oficial.",
       },
     ],
   },

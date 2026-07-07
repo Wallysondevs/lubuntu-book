@@ -749,7 +749,7 @@ apropos PALAVRA       # busca comandos relacionados
       },
       {
         type: "warning",
-        content: "Cuidado com tutoriais antigos da internet. Comandos do Ubuntu 16.04 nem sempre funcionam no 24.04. Confira a data do post e a versão alvo antes de copiar.",
+        content: "Cuidado com tutoriais antigos da internet. Comandos do Ubuntu 16.04 nem sempre funcionam no 26.04. Confira a data do post e a versão alvo antes de copiar.",
       },
     ],
   },
